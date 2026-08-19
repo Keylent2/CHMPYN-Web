@@ -902,7 +902,7 @@ function Footer() {
 }
 
 const DESIGN_WIDTH = 1442;
-const DESIGN_HEIGHT = 10703;
+const DESIGN_HEIGHT = 9841;
 const DESKTOP_ARTBOARD_BREAKPOINT = 1100;
 
 function ResponsiveArtboard({ children }) {
