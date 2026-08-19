@@ -80,7 +80,7 @@ button { font: inherit; }
 
 /* ------------------------------ HERO ------------------------------ */
 .hero {
-  height: 811px;
+  height: 720px;
   overflow: hidden;
   background:
     radial-gradient(circle at 24% 31%, rgba(86, 185, 250, .13), transparent 38%),
@@ -88,7 +88,7 @@ button { font: inherit; }
     #fff;
 }
 .hero__inner {
-  height: 811px;
+  height: 720px;
   display: grid;
   grid-template-columns: 1.05fr .95fr;
   gap: 84px;
@@ -111,7 +111,7 @@ button { font: inherit; }
   line-height: 1.82;
   color: #315170;
 }
-.hero__watch { width: 160px; margin-top: 34px; }
+.hero__watch { width: max-content; white-space: nowrap; margin-top: 34px; }
 .hero-proof { display: flex; align-items: center; gap: 23px; margin-top: 45px; }
 .avatar-stack { display: flex; align-items: center; }
 .avatar-stack img {
@@ -205,7 +205,8 @@ button { font: inherit; }
 .big-stat { text-align: center; position: relative; }
 .big-stat:not(:last-child)::after { content: '';
   position: absolute; top: 50%; right: 0; width: 1px; height: 58px; transform: translateY(-50%); background: rgba(255,255,255,.10); }
-.big-stat strong { display: block; font-size: 36px; line-height: 1; letter-spacing: -.045em; background: linear-gradient(90deg, #fff 0 62%, #168fe7 62% 100%); -webkit-background-clip: text; color: transparent; }
+.big-stat strong { display: block; font-size: 36px; line-height: 1; letter-spacing: -.045em; color: #fff; }
+.big-stat .stat-suffix { display: inline; color: #168fe7; font-size: 36px; font-weight: 800; margin: 0; }
 .big-stat span { display: block; margin-top: 10px; color: #758193; font-size: 10px; }
 
 /* ------------------------------ COMMON HEADINGS ------------------------------ */
@@ -306,10 +307,10 @@ button { font: inherit; }
 .phone__notch { display: none; }
 .phone--growth { width: 310px; height: 620px; border-width: 5px; border-radius: 22px; }
 .phone--growth .phone__screen {
-  width: 375px; height: 812px;
+  width: 310px; height: 672px;
   inset: auto; top: 0; left: 0;
   transform-origin: top left;
-  transform: scale(0.8);
+  transform: scale(0.968);
 }
 
 /* ------------------------------ RENDERED PHONE UI ------------------------------ */
@@ -526,7 +527,7 @@ button { font: inherit; }
 
 /* ------------------------------ ECOSYSTEM ------------------------------ */
 .section-gap-large { margin-top: 39px; }
-.ecosystem { height: 713px; padding-top: 117px; background: #fff; }
+.ecosystem { height: 600px; padding-top: 80px; background: #fff; }
 .ecosystem .section-heading h2 { font-size: 49px; }
 .ecosystem .section-heading > p { max-width: 750px; }
 .ecosystem-flow { margin-top: 69px; display: flex; align-items: center; justify-content: center; }
@@ -545,7 +546,7 @@ button { font: inherit; }
 
 /* ------------------------------ JOURNEY PATH ------------------------------ */
 .section-gap-tiny { margin-top: 1px; }
-.journey-path { height: 546px; padding-top: 103px; background: #fff; }
+.journey-path { height: 480px; padding-top: 50px; background: #fff; }
 .journey-path .section-heading h2 { font-size: 49px; }
 .journey-flow { display: flex; align-items: flex-start; justify-content: center; margin-top: 62px; }
 .journey-step-wrap { display: flex; align-items: flex-start; }
@@ -588,7 +589,7 @@ button { font: inherit; }
 .testimonial-author p { margin: 2px 0 0; color: #7893ab; font-size: 8px; }
 
 /* ------------------------------ DOWNLOAD ------------------------------ */
-.download-section { height: 505px; margin-top: 2px; background: #f3f8fc; border-top: 1px solid #e0ebf3; }
+.download-section { height: 420px; margin-top: 2px; background: #f3f8fc; border-top: 1px solid #e0ebf3; }
 .download-section__inner { height: 100%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
 .download-section .eyebrow { margin: 0 0 14px; }
 .download-section h2 { font-size: 48px; }

@@ -251,19 +251,19 @@ function Hero() {
 
 function StatStrip() {
   const stats = [
-    ['50K+', 'Active Athletes'],
-    ['5K+', 'Sports Teams'],
-    ['100K+', 'Matches Managed'],
-    ['20+', 'Sports Categories'],
-    ['95%', 'User Satisfaction'],
+    ['50', 'K+', 'Active Athletes'],
+    ['5', 'K+', 'Sports Teams'],
+    ['100', 'K+', 'Matches Managed'],
+    ['20', '+', 'Sports Categories'],
+    ['95', '%', 'User Satisfaction'],
   ];
 
   return (
     <section className="stat-strip">
       <div className="container stat-strip__inner">
-        {stats.map(([value, label]) => (
+        {stats.map(([num, suffix, label]) => (
           <div className="big-stat" key={label}>
-            <strong>{value}</strong>
+            <strong>{num}<span className="stat-suffix">{suffix}</span></strong>
             <span>{label}</span>
           </div>
         ))}
@@ -902,7 +902,7 @@ function Footer() {
 }
 
 const DESIGN_WIDTH = 1442;
-const DESIGN_HEIGHT = 9841;
+const DESIGN_HEIGHT = 9486;
 const DESKTOP_ARTBOARD_BREAKPOINT = 1100;
 
 function ResponsiveArtboard({ children }) {
