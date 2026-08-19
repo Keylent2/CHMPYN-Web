@@ -5,15 +5,20 @@ import {
   ArrowRight,
   Award,
   BarChart3,
+  Bell,
   CalendarDays,
   Check,
+  CheckSquare,
+  ClipboardList,
   Dumbbell,
   Facebook,
+  Home,
   Instagram,
   Linkedin,
   MapPin,
   Medal,
   MessageCircle,
+  MoreHorizontal,
   Play,
   Search,
   Send,
@@ -21,7 +26,10 @@ import {
   Star,
   Target,
   Trophy,
+  User,
+  UserCog,
   UserRoundCheck,
+  Users,
   UsersRound,
   Youtube,
 } from 'lucide-react';
@@ -197,58 +205,6 @@ function Navbar() {
   );
 }
 
-function DashboardCard() {
-  const ranking = [
-    ['v5-proof-1.png', 'Blue Stars FC', '38 pts'],
-    ['v5-proof-2.png', 'City Hawks', '35 pts'],
-    ['v5-proof-3.png', 'Phoenix United', '33 pts'],
-  ];
-
-  return (
-    <div className="hero-dashboard" aria-label="CHMPYN athlete dashboard preview">
-      <div className="window-bar">
-        <div className="window-dots"><i /><i /><i /></div>
-        <span>CHMPYN — Athlete Dashboard</span>
-      </div>
-      <div className="dashboard-body">
-        <div className="dashboard-title-row">
-          <div>
-            <h3>Spring Championship 2026</h3>
-            <p>Active Season · 24 Teams Competing</p>
-          </div>
-          <span className="live-dot">●&nbsp; Live</span>
-        </div>
-
-        <div className="mini-stats">
-          <div><strong>87</strong><span>Matches Played</span></div>
-          <div><strong>348</strong><span>Athletes</span></div>
-          <div><strong className="green">24</strong><span>Teams</span></div>
-        </div>
-
-        <div className="ranking-card">
-          <h4>Top Rankings</h4>
-          {ranking.map((row, index) => (
-            <div className="rank-row" key={row[1]}>
-              <span className={`rank-index rank-${index + 1}`}>{index + 1}</span>
-              <img src={`${A}${row[0]}`} alt="" />
-              <b>{row[1]}</b>
-              <strong>{row[2]}</strong>
-            </div>
-          ))}
-        </div>
-
-        <div className="next-match">
-          <span className="next-match__icon"><CalendarDays size={16} /></span>
-          <span>
-            <b>Next: Blue Stars vs City Hawks</b>
-            <small>Tomorrow · Stadium A · 4:00 PM</small>
-          </span>
-          <em>QF</em>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function Hero() {
   return (
@@ -283,7 +239,11 @@ function Hero() {
           </div>
         </div>
 
-        <DashboardCard />
+        <div className="hero__phones">
+          <DashboardScreen className="phone--hero phone--hero-left" variant="coach" />
+          <SplashScreen className="phone--hero phone--hero-center" />
+          <ScheduleScreen className="phone--hero phone--hero-right" />
+        </div>
       </div>
     </section>
   );
@@ -345,6 +305,251 @@ function PhoneFrame({ src, className = '' }) {
   );
 }
 
+function PhoneShell({ className = '', children }) {
+  return (
+    <div className={`phone ${className}`}>
+      <div className="phone__notch" />
+      <div className="phone__screen">{children}</div>
+    </div>
+  );
+}
+
+function SplashScreen({ className = '' }) {
+  return (
+    <PhoneShell className={className}>
+      <div className="app-splash">
+        <div className="app-splash__icon"><Trophy size={28} strokeWidth={2} /></div>
+        <span className="app-splash__name">CHMPYN</span>
+      </div>
+    </PhoneShell>
+  );
+}
+
+function DashboardScreen({ className = '', variant = 'player' }) {
+  const isCoach = variant === 'coach';
+  return (
+    <PhoneShell className={className}>
+      <div className="app-screen">
+        <div className="app-header">
+          <div className="app-user">
+            <div className="app-avatar"><User size={18} /></div>
+            <div className="app-user-info">
+              <b>{isCoach ? 'Suchitha' : 'Emma'}</b>
+              <span>{isCoach ? 'Head Coach' : 'Player'}</span>
+            </div>
+          </div>
+          <div className="app-bell">
+            <Bell size={18} />
+            <span className="app-bell__badge">3</span>
+          </div>
+        </div>
+
+        <div className="app-section">
+          <h4 className="app-section__title">Quick Actions</h4>
+          <div className={`app-actions${isCoach ? ' app-actions--quad' : ''}`}>
+            <div className="app-action-card">
+              <div className="app-action-icon blue"><CalendarDays size={18} /></div>
+              <div><b>Schedule</b><span>Events &amp; matches</span></div>
+            </div>
+            {isCoach && (
+              <div className="app-action-card">
+                <div className="app-action-icon purple"><Users size={18} /></div>
+                <div><b>Team</b><span>Players &amp; roster</span></div>
+              </div>
+            )}
+            <div className="app-action-card">
+              <div className="app-action-icon green"><Target size={18} /></div>
+              <div><b>Practice</b><span>Plans &amp; drills</span></div>
+            </div>
+            {isCoach && (
+              <div className="app-action-card">
+                <div className="app-action-icon orange"><UserCog size={18} /></div>
+                <div><b>User Mgmt</b><span>Manage members</span></div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="app-section app-section--schedule">
+          <div className="app-section__header">
+            <h4 className="app-section__title">Recent Schedule</h4>
+            <span className="app-view-all">View all</span>
+          </div>
+          <div className="app-matches">
+            {isCoach ? (
+              <>
+                <div className="app-match">
+                  <div className="app-match__top">
+                    <span className="app-match__date">6 August 2026</span>
+                    <span className="app-match__tag green">GAME ›</span>
+                  </div>
+                  <div className="app-match__body">
+                    <div className="app-match__icon green"><Trophy size={16} /></div>
+                    <div className="app-match__teams"><b>dribbling</b></div>
+                  </div>
+                  <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+                  <div className="app-match__times">
+                    <span className="app-time-pill green">JV 5:45 PM</span>
+                    <span className="app-time-pill gray">V 6:45 PM</span>
+                  </div>
+                </div>
+                <div className="app-match">
+                  <div className="app-match__top">
+                    <span className="app-match__date">6 August 2026 · 10:30 PM</span>
+                    <span className="app-match__tag orange">MATCH ›</span>
+                  </div>
+                  <div className="app-match__body">
+                    <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                    <div className="app-match__teams"><b>Junior Varsity</b><span>vs</span><b>Varsity</b></div>
+                  </div>
+                  <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="app-match">
+                  <div className="app-match__top">
+                    <span className="app-match__date">6 August 2026 · 10:30 PM</span>
+                    <span className="app-match__tag orange">MATCH ›</span>
+                  </div>
+                  <div className="app-match__body">
+                    <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                    <div className="app-match__teams"><b>Junior Varsity</b><span>vs</span><b>Varsity</b></div>
+                  </div>
+                  <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+                </div>
+                <div className="app-match">
+                  <div className="app-match__top">
+                    <span className="app-match__date">5 August 2026 · 4:00 PM</span>
+                    <span className="app-match__tag orange">MATCH ›</span>
+                  </div>
+                  <div className="app-match__body">
+                    <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                    <div className="app-match__teams"><b>Varsity</b><span>vs</span><b>Junior Varsity</b></div>
+                  </div>
+                  <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+                </div>
+                <div className="app-match">
+                  <div className="app-match__top">
+                    <span className="app-match__date">5 August 2026 · 3:00 PM</span>
+                    <span className="app-match__tag orange">MATCH ›</span>
+                  </div>
+                  <div className="app-match__body">
+                    <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                    <div className="app-match__teams"><b>Junior Varsity</b><span>vs</span><b>Varsity</b></div>
+                  </div>
+                  <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="app-nav">
+          <div className="app-nav__item active"><Home size={16} /><span>Home</span></div>
+          <div className="app-nav__item"><CalendarDays size={16} /><span>Schedule</span></div>
+          <div className="app-nav__item"><Target size={16} /><span>Practice</span></div>
+          <div className="app-nav__item"><MoreHorizontal size={16} /><span>More</span></div>
+        </div>
+      </div>
+    </PhoneShell>
+  );
+}
+
+function ScheduleScreen({ className = '' }) {
+  return (
+    <PhoneShell className={className}>
+      <div className="app-screen">
+        <div className="app-header app-header--simple">
+          <h3>Schedule</h3>
+          <div className="app-header__actions">
+            <CalendarDays size={18} />
+            <Search size={18} />
+          </div>
+        </div>
+
+        <div className="app-tabs">
+          <span className="active">All</span>
+          <span>Scrimmage Details</span>
+          <span>Scrimmage</span>
+          <span>Other</span>
+        </div>
+
+        <div className="app-section app-section--schedule" style={{ padding: '0 16px' }}>
+          <div className="app-matches">
+            <div className="app-match">
+              <div className="app-match__top">
+                <span className="app-match__date">6 August 2026</span>
+                <span className="app-match__tag green">GAME ›</span>
+              </div>
+              <div className="app-match__body">
+                <div className="app-match__icon green"><Trophy size={16} /></div>
+                <div className="app-match__teams"><b>dribbling</b></div>
+              </div>
+              <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+            </div>
+
+            <div className="app-match">
+              <div className="app-match__top">
+                <span className="app-match__date">6 August 2026 · 10:30 PM</span>
+                <span className="app-match__tag orange">MATCH ›</span>
+              </div>
+              <div className="app-match__body">
+                <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                <div className="app-match__teams"><b>Junior Varsity</b><span>vs</span><b>Varsity</b></div>
+              </div>
+              <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+            </div>
+
+            <div className="app-match">
+              <div className="app-match__top">
+                <span className="app-match__date">5 August 2026 · 5:00 PM</span>
+                <span className="app-match__tag purple">Photoshoot ›</span>
+              </div>
+              <div className="app-match__body">
+                <div className="app-match__icon purple"><Star size={16} /></div>
+                <div className="app-match__teams"><b>Team Varsity Photoshoot</b></div>
+              </div>
+              <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+            </div>
+
+            <div className="app-match">
+              <div className="app-match__top">
+                <span className="app-match__date">5 August 2026 · 4:00 PM</span>
+                <span className="app-match__tag orange">MATCH ›</span>
+              </div>
+              <div className="app-match__body">
+                <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                <div className="app-match__teams"><b>Varsity</b><span>vs</span><b>Junior Varsity</b></div>
+              </div>
+              <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+            </div>
+
+            <div className="app-match">
+              <div className="app-match__top">
+                <span className="app-match__date">5 August 2026 · 3:00 PM</span>
+                <span className="app-match__tag orange">MATCH ›</span>
+              </div>
+              <div className="app-match__body">
+                <div className="app-match__icon orange"><UsersRound size={16} /></div>
+                <div className="app-match__teams"><b>Junior Varsity</b><span>vs</span><b>Varsity</b></div>
+              </div>
+              <div className="app-match__loc"><MapPin size={10} /> main ground</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="app-nav">
+          <div className="app-nav__item"><Home size={16} /><span>Home</span></div>
+          <div className="app-nav__item active"><CalendarDays size={16} /><span>Schedule</span></div>
+          <div className="app-nav__item"><Target size={16} /><span>Practice</span></div>
+          <div className="app-nav__item"><MoreHorizontal size={16} /><span>More</span></div>
+        </div>
+      </div>
+    </PhoneShell>
+  );
+}
+
 function Growth() {
   const bullets = [
     [Activity, 'Real-time performance metrics updated after every session', 'blue'],
@@ -372,7 +577,7 @@ function Growth() {
 
         <div className="growth__visual">
           <div className="phone-glow" />
-          <PhoneFrame src="v5-athlete-screen.png" className="phone--growth" />
+          <DashboardScreen className="phone--growth" variant="player" />
         </div>
       </div>
     </section>
@@ -383,8 +588,8 @@ function Collaboration() {
   const cards = [
     [MessageCircle, 'Team Announcements', 'Broadcast updates instantly to the whole team.', 'blue'],
     [CalendarDays, 'Shared Schedules', 'Everyone sees the same match and training calendar.', 'purple'],
-    [UserRoundCheck, 'Attendance Tracking', "Monitor who confirmed, who's absent, and why.", 'green'],
-    [Activity, 'Team Activity Feed', 'Live updates on training, results, and milestones.', 'orange'],
+    [CheckSquare, 'Attendance Tracking', "Monitor who confirmed, who's absent, and why.", 'green'],
+    [ClipboardList, 'Team Activity Feed', 'Live updates on training, results, and milestones.', 'orange'],
   ];
 
   return (
@@ -397,6 +602,50 @@ function Collaboration() {
         </div>
 
         <div className="collaboration__grid">
+          <div className="collab-phone">
+            <PhoneShell className="phone--collab">
+              <div className="activity-card activity-card--phone">
+                <div className="channel-header">
+                  <div><span className="channel-dot" />Wolf Team Channel</div>
+                  <span>12 Members Online</span>
+                </div>
+
+                <div className="activity-card__body">
+                  <div className="activity-title">📣 Match vs City Hawks rescheduled</div>
+
+                  <div className="chat-line chat-line--left">
+                    <div className="chat-avatar coach">CR</div>
+                    <div>
+                      <b>Coach Rivera</b>
+                      <p>Match vs City Hawks has been rescheduled to Saturday 4:30 PM. Please confirm attendance by tonight. Training tomorrow is mandatory 7 AM sharp. 🏃</p>
+                    </div>
+                  </div>
+
+                  <div className="chat-line chat-line--right">
+                    <div>
+                      <b>Marcus Williams</b>
+                      <p>Got it, Coach! I'll be there early. 💪</p>
+                    </div>
+                  </div>
+
+                  <div className="chat-line chat-line--right second">
+                    <div>
+                      <b>Sofia Reyes</b>
+                      <p>Confirmed! See everyone Saturday 🏆</p>
+                    </div>
+                  </div>
+
+                  <div className="attendance-confirmed"><Check size={14} /> 9/12 members confirmed attendance</div>
+
+                  <div className="composer">
+                    <span>Write a message...</span>
+                    <button aria-label="Send message"><Send size={15} /></button>
+                  </div>
+                </div>
+              </div>
+            </PhoneShell>
+          </div>
+
           <div className="collab-features">
             {cards.map(([Icon, title, text, tone]) => (
               <div className="collab-item" key={title}>
@@ -404,46 +653,6 @@ function Collaboration() {
                 <div><h3>{title}</h3><p>{text}</p></div>
               </div>
             ))}
-          </div>
-
-          <div className="activity-card">
-            <div className="channel-header">
-              <div><span className="channel-dot" />Wolf Team Channel</div>
-              <span>12 Members Online</span>
-            </div>
-
-            <div className="activity-card__body">
-              <div className="activity-title">📣 Match vs City Hawks rescheduled</div>
-
-              <div className="chat-line chat-line--left">
-                <div className="chat-avatar coach">CR</div>
-                <div>
-                  <b>Coach Rivera</b>
-                  <p>Match vs City Hawks has been rescheduled to Saturday 4:30 PM. Please confirm attendance by tonight. Training tomorrow is mandatory 7 AM sharp. 🏃</p>
-                </div>
-              </div>
-
-              <div className="chat-line chat-line--right">
-                <div>
-                  <b>Marcus Williams</b>
-                  <p>Got it, Coach! I'll be there early. 💪</p>
-                </div>
-              </div>
-
-              <div className="chat-line chat-line--right second">
-                <div>
-                  <b>Sofia Reyes</b>
-                  <p>Confirmed! See everyone Saturday 🏆</p>
-                </div>
-              </div>
-
-              <div className="attendance-confirmed"><Check size={14} /> 9/12 members confirmed attendance</div>
-
-              <div className="composer">
-                <span>Write a message...</span>
-                <button aria-label="Send message"><Send size={15} /></button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -564,9 +773,9 @@ function MobileShowcase() {
         </div>
 
         <div className="phone-trio">
-          <PhoneFrame src="v5-athlete-screen.png" className="phone--side phone--left" />
-          <PhoneFrame src="v5-splash-screen.png" className="phone--center" />
-          <PhoneFrame src="v5-team-screen.png" className="phone--side phone--right" />
+          <DashboardScreen className="phone--side phone--left" variant="coach" />
+          <SplashScreen className="phone--center" />
+          <ScheduleScreen className="phone--side phone--right" />
         </div>
       </div>
     </section>
