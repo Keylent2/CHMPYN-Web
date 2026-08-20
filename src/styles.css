@@ -318,10 +318,10 @@ button { font: inherit; }
 .phone__notch { display: none; }
 .phone--growth { width: 310px; height: 620px; border-width: 5px; border-radius: 22px; }
 .phone--growth .phone__screen {
-  width: 310px; height: 630px;
+  width: 255px; height: 519px;
   inset: auto; top: 0; left: 0;
   transform-origin: top left;
-  transform: scale(0.968);
+  transform: scale(1.176);
 }
 
 /* ------------------------------ RENDERED PHONE UI ------------------------------ */
@@ -586,7 +586,7 @@ button { font: inherit; }
 /* ------------------------------ MOBILE ------------------------------ */
 .mobile-showcase { padding-top: 100px; padding-bottom: 80px; overflow: visible; background: #f3f8fc; }
 .mobile-showcase .section-heading h2 { font-size: 53px; }
-.phone-trio { margin-top: 50px; display: flex; align-items: flex-start; justify-content: center; gap: 35px; width: calc(100% + 100px); margin-left: -50px; }
+.phone-trio { margin-top: 50px; display: flex; align-items: flex-start; justify-content: center; gap: 35px; }
 .phone-trio .phone { -webkit-mask-image: none; filter: drop-shadow(0 0 25px rgba(10, 50, 90, 0.30)) drop-shadow(0 12px 20px rgba(10, 50, 90, 0.22)); }
 .phone-trio .phone--center .phone__screen:has(.app-splash) { width: auto; height: auto; inset: 0; transform: none; }
 .phone-trio .phone--center:has(.app-splash) { background: #014f93; }
@@ -714,13 +714,6 @@ button { font: inherit; }
     transform: none;
   }
 
-  .phone--side {
-    width: 210px;
-  }
-
-  .phone--center {
-    width: 210px;
-  }
 }
 
 /* ------------------------------ TABLET ------------------------------ */
@@ -818,7 +811,7 @@ button { font: inherit; }
   .phone--hero-right { width: 170px; height: 350px; }
   .phone--hero-left { margin-right: -30px; }
   .phone--hero-right { margin-left: -30px; }
-  .phone--hero-center .phone__screen { transform: scale(0.437); }
+  .phone--hero-center .phone__screen { width: 255px; height: 528px; transform: scale(0.643); }
   .phone--hero-left .phone__screen,
   .phone--hero-right .phone__screen { width: 255px; height: 528px; transform: scale(0.643); }
 
@@ -874,7 +867,7 @@ button { font: inherit; }
     width: 270px;
     height: 540px;
   }
-  .phone--growth .phone__screen { transform: scale(0.693); }
+  .phone--growth .phone__screen { width: 255px; height: 519px; transform: scale(1.02); }
 
   .collaboration__grid {
     grid-template-columns: 1fr;
@@ -887,8 +880,8 @@ button { font: inherit; }
   }
 
   .collab-phone { display: grid; place-items: center; }
-  .phone--collab { width: 250px; height: 490px; margin: 0 auto; }
-  .phone--collab .phone__screen { inset: 0; transform: none; }
+  .phone--collab { width: 240px; height: 480px; margin: 0 auto; border-width: 4px; border-radius: 20px; }
+  .phone--collab .phone__screen { width: 230px; height: 460px; inset: auto; top: 0; left: 0; transform-origin: top left; transform: scale(1); }
 
   .role-grid,
   .scout-grid {
@@ -910,22 +903,63 @@ button { font: inherit; }
     height: auto;
     margin-top: 68px;
     gap: 18px;
-    align-items: flex-end;
+    width: 100%;
+    margin-left: 0;
+    align-items: flex-start;
+    justify-content: center;
   }
 
   .phone--side,
   .phone--center {
-    max-width: 210px;
-    margin-inline: auto;
-    width: min(25vw, 210px);
-    height: min(52vw, 440px);
+    flex: 0 1 250px;
+    max-width: 250px;
+    height: 500px;
     margin-top: 0;
+    border-width: 4px;
+    border-radius: 22px;
+  }
+  .phone--side {
+    margin-top: 80px;
   }
   .phone--side .phone__screen,
   .phone--center .phone__screen {
-    width: 270px; height: 576px;
-    transform: scale(0.748);
+    width: auto; height: auto;
+    inset: 0;
+    transform: none;
   }
+  .phone-trio .app-screen { font-size: 6px; }
+  .phone-trio .app-header { padding: 4px 8px; }
+  .phone-trio .app-avatar { width: 20px; height: 20px; }
+  .phone-trio .app-avatar svg { width: 12px; height: 12px; }
+  .phone-trio .app-user-info b { font-size: 7px; }
+  .phone-trio .app-user-info span { font-size: 5px; }
+  .phone-trio .app-bell svg { width: 12px; height: 12px; }
+  .phone-trio .app-section { padding: 4px 8px 0; }
+  .phone-trio .app-section__title { font-size: 7px; }
+  .phone-trio .app-section__header { margin-bottom: 2px; }
+  .phone-trio .app-view-all { font-size: 5px; }
+  .phone-trio .app-action-card { padding: 4px 6px; gap: 4px; }
+  .phone-trio .app-action-icon { width: 20px; height: 20px; }
+  .phone-trio .app-action-icon svg { width: 10px; height: 10px; }
+  .phone-trio .app-action-card b { font-size: 6px; }
+  .phone-trio .app-action-card span { font-size: 4px; }
+  .phone-trio .app-match { padding: 4px 0; }
+  .phone-trio .app-match__date { font-size: 5px; }
+  .phone-trio .app-match__tag { font-size: 4px; padding: 1px 4px; }
+  .phone-trio .app-match__teams b { font-size: 6px; }
+  .phone-trio .app-match__teams span { font-size: 5px; }
+  .phone-trio .app-match__loc { font-size: 4px; }
+  .phone-trio .app-match__icon { width: 18px; height: 18px; }
+  .phone-trio .app-match__icon svg { width: 10px; height: 10px; }
+  .phone-trio .app-time-pill { font-size: 4px; padding: 1px 3px; }
+  .phone-trio .app-nav { height: 28px; }
+  .phone-trio .app-nav__item { font-size: 4px; }
+  .phone-trio .app-nav__item svg { width: 10px; height: 10px; }
+  .phone-trio .app-tabs { padding: 0 8px 4px; font-size: 5px; }
+  .phone-trio .app-header--simple h3 { font-size: 8px; }
+  .phone-trio .app-header__actions svg { width: 12px; height: 12px; }
+  .phone--center .phone__screen:has(.app-splash) { inset: 0; }
+  .phone--center:has(.app-splash) { background: #014f93; }
 
   .testimonial-grid {
     grid-template-columns: 1fr;
@@ -977,16 +1011,19 @@ button { font: inherit; }
 
 /* ------------------------------ PHONE / SMALL TABLET ------------------------------ */
 @media (max-width: 640px) {
-  .hero__phones { margin-inline: auto; width: min(100%, 420px); }
-  .phone--hero { border-radius: 16px; border-width: 3px; }
+  .hero__phones { margin-inline: auto; width: min(100%, 340px); }
+  .phone--hero { border-radius: 14px; border-width: 2px; }
   .phone--hero-center,
   .phone--hero-left,
-  .phone--hero-right { width: 130px; height: 270px; }
-  .phone--hero-left { margin-right: -20px; }
-  .phone--hero-right { margin-left: -20px; }
-  .phone--hero-center .phone__screen { transform: scale(0.331); }
+  .phone--hero-right { width: min(28vw, 110px); height: min(58vw, 230px); }
+  .phone--hero-left { margin-right: -15px; }
+  .phone--hero-right { margin-left: -15px; }
+  .phone--hero-center .phone__screen { width: 255px; height: 628px; transform: scale(0.34); }
   .phone--hero-left .phone__screen,
-  .phone--hero-right .phone__screen { width: 255px; height: 528px; transform: scale(0.486); }
+  .phone--hero-right .phone__screen { width: 255px; height: 628px; transform: scale(0.34); }
+  .phone--hero-left .app-splash__icon { width: 32px; height: 32px; border-radius: 8px; }
+  .phone--hero-left .app-splash__icon svg { width: 16px; height: 16px; }
+  .phone--hero-left .app-splash__name { font-size: 9px; }
 
   html,
   body,
@@ -1202,7 +1239,7 @@ button { font: inherit; }
     border-radius: 20px;
     border-width: 4px;
   }
-  .phone--growth .phone__screen { transform: scale(0.64); }
+  .phone--growth .phone__screen { width: 255px; height: 519px; transform: scale(0.85); }
 
   .collaboration__grid {
     grid-template-columns: 1fr;
@@ -1211,7 +1248,8 @@ button { font: inherit; }
   }
 
   .collab-item {
-    min-height: 76px;
+    min-height: 70px;
+    padding: 12px 16px;
   }
 
   .activity-card {
@@ -1224,10 +1262,10 @@ button { font: inherit; }
 
   .collab-phone { display: grid; place-items: center; }
   .phone--collab {
-    width: min(55vw, 220px); height: min(110vw, 430px);
+    width: min(60vw, 240px); height: min(135vw, 520px);
     margin: 0 auto; border-width: 4px; border-radius: 18px;
   }
-  .phone--collab .phone__screen { inset: 0; transform: none; }
+  .phone--collab .phone__screen { inset: 0; transform: none; width: auto; height: auto; }
 
   .chat-line p,
   .chat-line b {
@@ -1269,28 +1307,27 @@ button { font: inherit; }
   .phone-trio {
     height: auto;
     margin-top: 52px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    align-items: end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    margin-left: 0;
   }
 
   .phone--side,
   .phone--center {
-    max-width: 210px;
-    margin-inline: auto;
-    width: 100%;
-    height: 440px;
+    width: min(45vw, 200px);
+    height: min(150vw, 580px);
     margin-top: 0;
     border-width: 3px;
     border-radius: 18px;
   }
   .phone--side .phone__screen,
   .phone--center .phone__screen {
-    width: 270px; height: 576px;
-    inset: auto; top: 0; left: 0;
-    transform-origin: top left;
-    transform: scale(0.755);
+    width: auto; height: auto;
+    inset: 0;
+    transform: none;
   }
 
   .phone--center {
@@ -1304,6 +1341,38 @@ button { font: inherit; }
     height: 18px;
     top: 5px;
   }
+  .phone-trio .app-screen { font-size: 6px; }
+  .phone-trio .app-header { padding: 4px 8px; }
+  .phone-trio .app-avatar { width: 18px; height: 18px; }
+  .phone-trio .app-avatar svg { width: 11px; height: 11px; }
+  .phone-trio .app-user-info b { font-size: 7px; }
+  .phone-trio .app-user-info span { font-size: 5px; }
+  .phone-trio .app-bell svg { width: 11px; height: 11px; }
+  .phone-trio .app-section { padding: 4px 8px 0; }
+  .phone-trio .app-section__title { font-size: 7px; }
+  .phone-trio .app-view-all { font-size: 5px; }
+  .phone-trio .app-action-card { padding: 4px 5px; gap: 4px; }
+  .phone-trio .app-action-icon { width: 18px; height: 18px; }
+  .phone-trio .app-action-icon svg { width: 9px; height: 9px; }
+  .phone-trio .app-action-card b { font-size: 6px; }
+  .phone-trio .app-action-card span { font-size: 4px; }
+  .phone-trio .app-match { padding: 4px 0; }
+  .phone-trio .app-match__date { font-size: 5px; }
+  .phone-trio .app-match__tag { font-size: 4px; padding: 1px 4px; }
+  .phone-trio .app-match__teams b { font-size: 6px; }
+  .phone-trio .app-match__teams span { font-size: 5px; }
+  .phone-trio .app-match__loc { font-size: 4px; }
+  .phone-trio .app-match__icon { width: 16px; height: 16px; }
+  .phone-trio .app-match__icon svg { width: 9px; height: 9px; }
+  .phone-trio .app-time-pill { font-size: 4px; padding: 1px 3px; }
+  .phone-trio .app-nav { height: 28px; }
+  .phone-trio .app-nav__item { font-size: 4px; }
+  .phone-trio .app-nav__item svg { width: 9px; height: 9px; }
+  .phone-trio .app-tabs { padding: 0 8px 4px; font-size: 5px; }
+  .phone-trio .app-header--simple h3 { font-size: 7px; }
+  .phone-trio .app-header__actions svg { width: 11px; height: 11px; }
+  .phone--center .phone__screen:has(.app-splash) { inset: 0; }
+  .phone--center:has(.app-splash) { background: #014f93; }
 
   .testimonial-grid {
     grid-template-columns: 1fr;
@@ -1425,7 +1494,7 @@ button { font: inherit; }
   .phone--hero { border-radius: 14px; border-width: 2px; }
   .phone--hero-left { margin-right: -14px; }
   .phone--hero-right { margin-left: -14px; }
-  .phone--hero-center .phone__screen { transform: scale(0.256); }
+  .phone--hero-center .phone__screen { width: 255px; height: 528px; transform: scale(0.376); }
   .phone--hero-left .phone__screen,
   .phone--hero-right .phone__screen { width: 255px; height: 528px; transform: scale(0.376); }
 
@@ -1446,16 +1515,20 @@ button { font: inherit; }
 
   /* Growth */
   .phone--growth { width: min(70vw, 220px); height: min(140vw, 440px); border-width: 3px; border-radius: 18px; }
-  .phone--growth .phone__screen { width: 310px; height: 672px; transform: scale(0.69); }
+  .phone--growth .phone__screen { width: 255px; height: 519px; transform: scale(0.836); }
 
   /* Collaboration */
-  .phone--collab { width: min(65vw, 200px); height: min(130vw, 400px); border-width: 3px; border-radius: 16px; }
+  .phone--collab { width: min(65vw, 200px); height: min(135vw, 420px); border-width: 3px; border-radius: 16px; }
   .phone--collab .phone__screen {
-    width: 320px; height: 640px;
-    inset: auto; top: 0; left: 0;
-    transform-origin: top left;
-    transform: scale(0.606);
+    inset: 0;
+    width: auto; height: auto;
+    transform: none;
   }
+  .phone--collab .activity-card__body { overflow: hidden; min-height: 0; flex: 1; }
+  .phone--collab .chat-line--right.second { display: none; }
+  .phone--collab .chat-label { margin-top: 6px; }
+  .phone--collab .chat-meta { margin-top: 1px; }
+  .phone--collab .attendance-confirmed { margin-top: 6px; }
   .collab-item { min-height: 64px; padding: 10px 12px; }
   .collab-item h3 { font-size: 11px; }
   .collab-item p { font-size: 9px; }
@@ -1469,11 +1542,41 @@ button { font: inherit; }
   .journey-step { width: min(260px, 85vw); }
 
   /* Showcase */
-  .phone-trio { gap: 12px; }
+  .phone-trio { gap: 16px; }
   .phone--side,
-  .phone--center { max-width: 160px; height: 340px; border-width: 2px; border-radius: 14px; }
+  .phone--center { width: min(60vw, 190px); height: min(170vw, 530px); border-width: 3px; border-radius: 16px; }
   .phone--side .phone__screen,
-  .phone--center .phone__screen { width: 270px; height: 576px; transform: scale(0.578); }
+  .phone--center .phone__screen { width: auto; height: auto; inset: 0; transform: none; }
+  .phone-trio .app-screen { font-size: 5px; }
+  .phone-trio .app-header { padding: 3px 5px; }
+  .phone-trio .app-avatar { width: 14px; height: 14px; }
+  .phone-trio .app-avatar svg { width: 9px; height: 9px; }
+  .phone-trio .app-user-info b { font-size: 6px; }
+  .phone-trio .app-user-info span { font-size: 4px; }
+  .phone-trio .app-bell svg { width: 9px; height: 9px; }
+  .phone-trio .app-section { padding: 3px 5px 0; }
+  .phone-trio .app-section__title { font-size: 6px; }
+  .phone-trio .app-view-all { font-size: 4px; }
+  .phone-trio .app-action-card { padding: 3px 4px; gap: 3px; }
+  .phone-trio .app-action-icon { width: 14px; height: 14px; }
+  .phone-trio .app-action-icon svg { width: 7px; height: 7px; }
+  .phone-trio .app-action-card b { font-size: 5px; }
+  .phone-trio .app-action-card span { font-size: 3px; }
+  .phone-trio .app-match { padding: 3px 0; }
+  .phone-trio .app-match__date { font-size: 4px; }
+  .phone-trio .app-match__tag { font-size: 3px; padding: 1px 2px; }
+  .phone-trio .app-match__teams b { font-size: 5px; }
+  .phone-trio .app-match__teams span { font-size: 4px; }
+  .phone-trio .app-match__loc { font-size: 3px; }
+  .phone-trio .app-match__icon { width: 12px; height: 12px; }
+  .phone-trio .app-match__icon svg { width: 7px; height: 7px; }
+  .phone-trio .app-time-pill { font-size: 3px; padding: 1px 2px; }
+  .phone-trio .app-nav { height: 22px; }
+  .phone-trio .app-nav__item { font-size: 3px; }
+  .phone-trio .app-nav__item svg { width: 7px; height: 7px; }
+  .phone-trio .app-tabs { padding: 0 5px 3px; font-size: 4px; }
+  .phone-trio .app-header--simple h3 { font-size: 6px; }
+  .phone-trio .app-header__actions svg { width: 9px; height: 9px; }
 
   /* Download */
   .store-badges img { width: min(200px, 65vw); }
