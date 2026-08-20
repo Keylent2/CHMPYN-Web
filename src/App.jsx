@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Activity,
@@ -8,17 +8,21 @@ import {
   Bell,
   CalendarDays,
   Check,
+  CheckCheck,
   CheckSquare,
+  ChevronLeft,
   ClipboardList,
   Dumbbell,
   Facebook,
   Home,
+  Info,
   Instagram,
   Linkedin,
   MapPin,
   Medal,
   MessageCircle,
   MoreHorizontal,
+  Paperclip,
   Play,
   Search,
   Send,
@@ -179,9 +183,9 @@ function Logo({ light = false }) {
   );
 }
 
-function Eyebrow({ children, light = false, icon = false }) {
+function Eyebrow({ children, light = false, purple = false, icon = false }) {
   return (
-    <div className={`eyebrow ${light ? 'eyebrow--light' : ''}`}>
+    <div className={`eyebrow ${light ? 'eyebrow--light' : ''} ${purple ? 'eyebrow--purple' : ''}`}>
       {icon && <Trophy size={11} />}
       {children}
     </div>
@@ -240,8 +244,8 @@ function Hero() {
         </div>
 
         <div className="hero__phones">
-          <DashboardScreen className="phone--hero phone--hero-left" variant="coach" />
-          <SplashScreen className="phone--hero phone--hero-center" />
+          <SplashScreen className="phone--hero phone--hero-left" />
+          <DashboardScreen className="phone--hero phone--hero-center" variant="coach" />
           <ScheduleScreen className="phone--hero phone--hero-right" />
         </div>
       </div>
@@ -606,38 +610,61 @@ function Collaboration() {
             <PhoneShell className="phone--collab">
               <div className="activity-card activity-card--phone">
                 <div className="channel-header">
-                  <div><span className="channel-dot" />Wolf Team Channel</div>
-                  <span>12 Members Online</span>
+                  <div className="channel-header__left">
+                    <ChevronLeft size={16} />
+                    <div className="channel-avatar"><User size={14} /></div>
+                    <div className="channel-info">
+                      <span className="channel-name">Wolf · Team Channel</span>
+                      <span className="channel-status"><span className="channel-dot" />12 Members Online</span>
+                    </div>
+                  </div>
+                  <div className="channel-header__right">
+                    <Info size={15} />
+                    <MoreHorizontal size={16} />
+                  </div>
                 </div>
 
                 <div className="activity-card__body">
-                  <div className="activity-title">📣 Match vs City Hawks rescheduled</div>
+                  <div className="chat-banner">⚠ Match vs City Hawks rescheduled</div>
 
+                  <div className="chat-label">Coach Rivera</div>
                   <div className="chat-line chat-line--left">
-                    <div className="chat-avatar coach">CR</div>
                     <div>
-                      <b>Coach Rivera</b>
-                      <p>Match vs City Hawks has been rescheduled to Saturday 4:30 PM. Please confirm attendance by tonight. Training tomorrow is mandatory 7 AM sharp. 🏃</p>
+                      <p>Match vs City Hawks has been rescheduled to Saturday 4:30 PM. Please confirm attendance by tonight. Training tomorrow is mandatory — 7 AM sharp.</p>
                     </div>
                   </div>
+                  <div className="chat-meta chat-meta--left">
+                    <div className="chat-avatar-small orange"><User size={8} /></div>
+                    <span className="chat-time">10:24 AM</span>
+                  </div>
 
+                  <div className="chat-label chat-label--right">Williams</div>
                   <div className="chat-line chat-line--right">
                     <div>
-                      <b>Marcus Williams</b>
                       <p>Got it, Coach! I'll be there early. 💪</p>
                     </div>
                   </div>
+                  <div className="chat-meta chat-meta--right">
+                    <span className="chat-time">10:25 AM</span>
+                    <CheckCheck size={10} className="chat-tick" />
+                  </div>
 
+                  <div className="chat-label chat-label--right">Sofia</div>
                   <div className="chat-line chat-line--right second">
                     <div>
-                      <b>Sofia Reyes</b>
                       <p>Confirmed! See everyone Saturday 🏆</p>
                     </div>
                   </div>
+                  <div className="chat-meta chat-meta--right">
+                    <span className="chat-time">10:27 AM</span>
+                    <CheckCheck size={10} className="chat-tick" />
+                    <div className="chat-avatar-small blue"><User size={8} /></div>
+                  </div>
 
-                  <div className="attendance-confirmed"><Check size={14} /> 9/12 members confirmed attendance</div>
+                  <div className="attendance-confirmed"><Check size={12} /> 9/12 members confirmed attendance <span className="chat-time">10:28 AM</span></div>
 
                   <div className="composer">
+                    <Paperclip size={14} className="composer-attach" />
                     <span>Write a message...</span>
                     <button aria-label="Send message"><Send size={15} /></button>
                   </div>
@@ -690,7 +717,7 @@ function Scouts() {
     <section className="scouts">
       <div className="container scouts__inner">
         <div className="section-heading scouts__heading">
-          <Eyebrow light>FOR SCOUTS</Eyebrow>
+          <Eyebrow purple>FOR SCOUTS</Eyebrow>
           <h2>Discover Talent. Discover Potential.</h2>
           <p>Talent exists at every level. CHMPYN helps scouts discover athletes, evaluate performance, follow development, and connect with emerging opportunities.</p>
         </div>
@@ -902,13 +929,14 @@ function Footer() {
 }
 
 const DESIGN_WIDTH = 1442;
-const DESIGN_HEIGHT = 9486;
 const DESKTOP_ARTBOARD_BREAKPOINT = 1100;
 
 function ResponsiveArtboard({ children }) {
+  const artboardRef = useRef(null);
   const [viewportWidth, setViewportWidth] = useState(() =>
     typeof window === 'undefined' ? DESIGN_WIDTH : window.innerWidth,
   );
+  const [contentHeight, setContentHeight] = useState(9486);
 
   useEffect(() => {
     let frame = 0;
@@ -917,6 +945,9 @@ function ResponsiveArtboard({ children }) {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         setViewportWidth(window.innerWidth);
+        if (artboardRef.current) {
+          setContentHeight(artboardRef.current.scrollHeight);
+        }
       });
     };
 
@@ -924,10 +955,18 @@ function ResponsiveArtboard({ children }) {
     window.addEventListener('resize', updateViewport, { passive: true });
     window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
 
+    const observer = new ResizeObserver(() => {
+      if (artboardRef.current) {
+        setContentHeight(artboardRef.current.scrollHeight);
+      }
+    });
+    if (artboardRef.current) observer.observe(artboardRef.current);
+
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', updateViewport);
       window.visualViewport?.removeEventListener('resize', updateViewport);
+      observer.disconnect();
     };
   }, []);
 
@@ -938,7 +977,7 @@ function ResponsiveArtboard({ children }) {
   );
 
   const stageStyle = desktopArtboard
-    ? { height: `${DESIGN_HEIGHT * scale}px` }
+    ? { height: `${contentHeight * scale}px` }
     : undefined;
 
   const canvasStyle = desktopArtboard
@@ -953,7 +992,7 @@ function ResponsiveArtboard({ children }) {
       className={`site-stage${desktopArtboard ? ' site-stage--scaled' : ''}`}
       style={stageStyle}
     >
-      <div className="site-artboard" style={canvasStyle}>
+      <div className="site-artboard" ref={artboardRef} style={canvasStyle}>
         {children}
       </div>
     </div>
