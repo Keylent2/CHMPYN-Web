@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Activity,
+  ArrowLeft,
   ArrowRight,
   ArrowUp,
   Award,
@@ -15,6 +16,7 @@ import {
   ClipboardList,
   Dumbbell,
   Facebook,
+  FileText,
   Home,
   Info,
   Instagram,
@@ -26,8 +28,10 @@ import {
   MoreHorizontal,
   Paperclip,
   Play,
+  Scale,
   Search,
   Send,
+  Shield,
   Sparkles,
   Star,
   Target,
@@ -199,7 +203,6 @@ const navLinks = [
   { href: '#home', label: 'Home' },
   { href: '#about', label: 'About Us' },
   { href: '#contact', label: 'Contact Us' },
-  { href: '#privacy', label: 'Privacy Policy' },
 ];
 
 function Navbar() {
@@ -977,6 +980,8 @@ function Footer() {
           <a href="#about">About Us</a>
           <a href="#about">Features</a>
           <a href="#contact">Contact</a>
+          <a href="#privacy-policy">Privacy Policy</a>
+          <a href="#terms">Terms & Conditions</a>
         </div>
 
         <div className="footer__column footer__contact">
@@ -993,9 +998,9 @@ function Footer() {
         </div>
       </div>
 
-      <div className="container footer__bottom" id="privacy">
+      <div className="container footer__bottom">
         <span>© 2026 CHMPYN. All Rights Reserved.</span>
-        <div><a href="#privacy">Privacy Policy</a><a href="#privacy">Terms of Service</a></div>
+        <div><a href="#privacy-policy">Privacy Policy</a><a href="#terms">Terms & Conditions</a></div>
       </div>
     </footer>
   );
@@ -1009,7 +1014,14 @@ function ResponsiveArtboard({ children }) {
   const [viewportWidth, setViewportWidth] = useState(() =>
     typeof window === 'undefined' ? DESIGN_WIDTH : window.innerWidth,
   );
-  const [contentHeight, setContentHeight] = useState(9486);
+  const [contentHeight, setContentHeight] = useState('auto');
+
+  // Immediately measure when children change to avoid stale height
+  useEffect(() => {
+    if (artboardRef.current) {
+      setContentHeight(artboardRef.current.scrollHeight);
+    }
+  }, [children]);
 
   useEffect(() => {
     let frame = 0;
@@ -1050,7 +1062,7 @@ function ResponsiveArtboard({ children }) {
   );
 
   const stageStyle = desktopArtboard
-    ? { height: `${contentHeight * scale}px` }
+    ? { height: contentHeight === 'auto' ? 'auto' : `${contentHeight * scale}px` }
     : undefined;
 
   const canvasStyle = desktopArtboard
@@ -1092,28 +1104,268 @@ function ScrollToTop() {
   );
 }
 
+function LegalPageHeader({ icon: Icon, title }) {
+  return (
+    <div className="legal-header">
+      <div className="legal-header__icon"><Icon size={28} strokeWidth={1.8} /></div>
+      <h1>{title}</h1>
+    </div>
+  );
+}
+
+function LegalSection({ title, children }) {
+  return (
+    <div className="legal-section">
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+
+function BackToHome() {
+  return (
+    <a href="#home" className="legal-back">
+      <ArrowLeft size={16} />
+      Back to Home
+    </a>
+  );
+}
+
+function PrivacyPolicy() {
+  return (
+    <div className="legal-page">
+      <div className="container legal-container">
+        <BackToHome />
+        <LegalPageHeader icon={Shield} title="CHMPYN Privacy Policy" />
+
+        <LegalSection title="Privacy Commitment">
+          <p>Your privacy is important to CHMPYN, Inc. and its affiliated organizations ("CHMPYN", "we", "our", or "us"). CHMPYN is committed to protecting the privacy, security, and integrity of information entrusted to our platform by schools, authorized users, parents, guardians, coaches, administrators, and student-athletes.</p>
+          <p>This Privacy Policy explains the principles, practices, and safeguards that guide how CHMPYN manages information throughout the platform. We believe privacy and security are fundamental responsibilities, particularly in environments where participants place trust in our services. Our goal is to provide a safe, secure, and transparent platform that supports athlete development, team management, organizational operations, communication, scheduling, attendance management, and participation management while maintaining strong privacy and responsible information management standards.</p>
+        </LegalSection>
+
+        <LegalSection title="Children's Privacy & Regulatory Compliance">
+          <p>CHMPYN recognizes that basketball programs may involve athletes under the age of 13 and understands the importance of protecting children's privacy. We are committed to supporting compliance with the Children's Online Privacy Protection Act (COPPA) and other applicable privacy regulations relating to minors. We work with schools, organizations, parents, guardians, and authorized representatives to help ensure that participation within the platform occurs under appropriate supervision and with required permissions.</p>
+          <p>In addition to COPPA, CHMPYN supports organizations in maintaining compliance with educational privacy requirements, including the Family Educational Rights and Privacy Act (FERPA), where applicable. Organizations remain responsible for determining their legal obligations and implementing appropriate policies regarding educational records and student information.</p>
+        </LegalSection>
+
+        <LegalSection title="Information Collection & Usage">
+          <p>CHMPYN may process information necessary to provide, maintain, and improve the platform. This may include account information, organization information, participant information, operational records, attendance records, participation history, team-related information, and technical platform usage information.</p>
+          <p>Information managed through CHMPYN is used solely to support legitimate basketball program operations. This includes managing organizations and teams, supporting scheduling and participation activities, maintaining operational records, facilitating communication between authorized users, supporting athlete development initiatives, generating organizational reports, improving platform functionality, and maintaining platform security and operational integrity.</p>
+          <p>Information is processed only for legitimate operational, administrative, developmental, participation-related, communication, and compliance purposes.</p>
+        </LegalSection>
+
+        <LegalSection title="Privacy Principles & Data Governance">
+          <p>CHMPYN follows privacy-by-design principles throughout the platform. Privacy considerations are integrated into platform architecture, operational processes, governance practices, and future enhancements.</p>
+          <p>We are committed to responsible information management, maintaining confidentiality, limiting unnecessary access, and ensuring that information is used only for authorized purposes. Privacy remains a core component of our product strategy and organizational governance framework.</p>
+        </LegalSection>
+
+        <LegalSection title="Access Control & Organizational Hierarchy">
+          <p>CHMPYN is designed around controlled access and role-based permissions. Different users have different responsibilities within an organization, and the platform provides structured access controls intended to ensure that individuals can access only the information necessary for their responsibilities.</p>
+          <p>The platform follows a hierarchy-based model that reflects how basketball programs operate in real-world environments. Access to information is determined by organizational responsibilities, assigned roles, team membership, and operational requirements. This approach helps reduce unnecessary exposure of information while supporting confidentiality, accountability, and operational integrity.</p>
+        </LegalSection>
+
+        <LegalSection title="Information Sharing & Disclosure">
+          <p>CHMPYN does not sell personal information. Information may only be shared as necessary to support authorized platform operations and organizational activities.</p>
+          <p>Access to information is governed by organizational permissions, platform controls, contractual obligations, and applicable legal requirements. Information may be made available to authorized organizational representatives, coaches, administrators, parents or guardians where applicable, authorized service providers supporting platform operations, and regulatory or legal authorities when required by law.</p>
+          <p>All information sharing activities are subject to appropriate privacy safeguards and access controls.</p>
+        </LegalSection>
+
+        <LegalSection title="Security & Platform Protection">
+          <p>Protecting information is an ongoing commitment at CHMPYN. We maintain administrative, technical, and organizational safeguards designed to reduce the risk of unauthorized access, misuse, disclosure, alteration, or loss of information.</p>
+          <p>Security practices are continuously reviewed and enhanced to address evolving threats, regulatory expectations, industry standards, and operational requirements. Our approach to security includes risk management, access controls, operational monitoring, system protection measures, and ongoing evaluation of security practices.</p>
+          <p>We believe security is not a one-time implementation but a continuous process of improvement and vigilance.</p>
+        </LegalSection>
+
+        <LegalSection title="Parent, Guardian & User Rights">
+          <p>CHMPYN recognizes the important role that parents and guardians play in youth athlete participation. We support organizational processes that encourage transparency, parental involvement, and responsible oversight of information associated with young athletes.</p>
+          <p>Subject to applicable laws and organizational policies, users may request access to information associated with their account, request corrections or updates to information, seek assistance with account management, and request information regarding organizational privacy practices. Certain requests may be subject to verification requirements, organizational approvals, legal obligations, and recordkeeping requirements.</p>
+          <p>Where applicable, CHMPYN supports organizational workflows that enable appropriate parental engagement and consent management.</p>
+        </LegalSection>
+
+        <LegalSection title="Organizational Responsibility & Compliance">
+          <p>CHMPYN provides tools that support schools and basketball programs in managing operations, participants, and organizational activities. Organizations using CHMPYN remain responsible for ensuring that their use of the platform complies with applicable laws, organizational policies, participation requirements, consent obligations, and internal governance standards.</p>
+          <p>CHMPYN provides governance controls intended to support responsible administration, accountability, and operational oversight while enabling organizations to manage participants efficiently and securely.</p>
+        </LegalSection>
+
+        <LegalSection title="Information Lifecycle, Analytics & Monitoring">
+          <p>CHMPYN believes information should be managed responsibly throughout its lifecycle. Information is maintained only for legitimate operational, compliance, reporting, athlete development, historical recordkeeping, and organizational purposes.</p>
+          <p>Information retention and management practices are periodically reviewed to ensure alignment with organizational requirements and regulatory obligations.</p>
+          <p>CHMPYN may also use analytics, monitoring tools, diagnostic systems, and related technologies to support platform functionality, performance optimization, security monitoring, troubleshooting, service reliability, and continuous improvement initiatives. Such technologies are used solely for legitimate operational and platform management purposes.</p>
+        </LegalSection>
+
+        <LegalSection title="International Access">
+          <p>CHMPYN primarily supports organizations operating within the United States. However, organizations or participants located in other jurisdictions may access the platform where permitted.</p>
+          <p>Users remain responsible for ensuring that their use of CHMPYN complies with applicable laws and regulations within their respective jurisdictions.</p>
+        </LegalSection>
+
+        <LegalSection title="Policy Updates & Continuous Improvement">
+          <p>Privacy, security, transparency, accountability, and trust are ongoing commitments at CHMPYN. We continuously review our governance practices, privacy controls, security measures, and operational processes to address evolving legal requirements, industry standards, and organizational expectations.</p>
+          <p>CHMPYN may update this Privacy Policy from time to time to reflect changes in platform functionality, legal requirements, operational practices, or industry standards. Updated versions will be made available through appropriate channels, and continued use of the platform may constitute acceptance of the revised policy, subject to applicable legal requirements.</p>
+        </LegalSection>
+
+        <LegalSection title="Contact Information">
+          <p>For questions regarding this Privacy Policy, privacy practices, or data protection matters, please contact CHMPYN through the designated privacy and compliance channels. Organizations may also contact their designated platform administrator or authorized organizational representative for assistance regarding organization-specific privacy matters.</p>
+        </LegalSection>
+
+        <LegalSection title="Our Commitment">
+          <p>At CHMPYN, privacy is not simply a compliance requirement—it is a fundamental part of how we build, operate, and improve our platform. We remain committed to providing a secure and trusted environment that supports athlete development, organizational success, operational efficiency, and responsible information management.</p>
+          <p>Privacy, security, transparency, accountability, and continuous improvement remain central to the design and operation of the CHMPYN platform.</p>
+        </LegalSection>
+
+        <BackToHome />
+      </div>
+    </div>
+  );
+}
+
+function TermsConditions() {
+  return (
+    <div className="legal-page">
+      <div className="container legal-container">
+        <BackToHome />
+        <LegalPageHeader icon={Scale} title="CHMPYN Terms & Conditions" />
+
+        <LegalSection title="Acceptance of Terms">
+          <p>Welcome to CHMPYN. These Terms and Conditions govern access to and use of the CHMPYN platform by schools, authorized personnel, student-athletes, parents or guardians, and other approved users. By accessing, using, or participating in CHMPYN, users acknowledge that they have read, understood, and agreed to comply with these Terms and Conditions.</p>
+          <p>Continued use of the platform following any updates, modifications, or enhancements constitutes acceptance of the revised Terms and Conditions.</p>
+        </LegalSection>
+
+        <LegalSection title="Purpose of the Platform">
+          <p>CHMPYN is a basketball management platform designed to support schools in the administration and operation of their basketball programs. The platform is intended to assist organizations with athlete development, participation management, scheduling, attendance tracking, team operations, game management, organizational oversight, and performance monitoring.</p>
+          <p>CHMPYN is provided solely for educational, athletic, administrative, and operational purposes related to school basketball programs and is intended to support the effective management of basketball activities within participating organizations.</p>
+        </LegalSection>
+
+        <LegalSection title="Eligibility, Authorized Use & Participation">
+          <p>Access to CHMPYN is limited to individuals who have been authorized by a participating school or organization. Users may only access and use the platform in connection with their assigned responsibilities and approved participation within the basketball program.</p>
+          <p>CHMPYN supports youth athlete participation while recognizing the importance of parental involvement and school oversight. Organizations are responsible for ensuring that all required permissions, approvals, authorizations, and participation requirements have been satisfied before participants engage in activities managed through the platform. Where participants are minors, parental or guardian involvement may be required in accordance with applicable laws, school policies, and organizational procedures.</p>
+          <p>Unauthorized access, use, distribution, or misuse of platform information may result in suspension or termination of access privileges.</p>
+        </LegalSection>
+
+        <LegalSection title="Organizational Responsibilities & Governance">
+          <p>Schools utilizing CHMPYN remain responsible for the administration, governance, and oversight of their basketball programs. This includes maintaining accurate records, managing participant eligibility, obtaining necessary permissions and authorizations, assigning appropriate access rights, and ensuring compliance with applicable policies and regulations.</p>
+          <p>CHMPYN provides operational tools intended to support these activities but does not replace organizational decision-making responsibilities. Organizations remain accountable for their own internal governance, participation requirements, and compliance obligations.</p>
+        </LegalSection>
+
+        <LegalSection title="Access Control, Hierarchy & Platform Usage">
+          <p>CHMPYN operates using a structured hierarchy model designed to reflect the operational structure of school basketball programs. Access to information is determined by assigned responsibilities, organizational relationships, team affiliations, and operational requirements.</p>
+          <p>Information is made available only to individuals who require access for legitimate operational purposes. The platform is designed to limit unnecessary visibility and maintain appropriate confidentiality between users and organizational groups.</p>
+          <p>The platform may be used to support basketball program activities including scheduling, participation management, athlete development, attendance monitoring, team administration, practice planning, game management, organizational reporting, and other approved operational workflows. Users agree to utilize CHMPYN only for purposes consistent with the goals and responsibilities of their school basketball program.</p>
+        </LegalSection>
+
+        <LegalSection title="Acceptable Use Standards">
+          <p>Users are expected to use CHMPYN responsibly, professionally, and in compliance with applicable laws, organizational policies, and platform requirements.</p>
+          <p>Users may not attempt to gain unauthorized access to information, interfere with platform functionality, bypass security controls, misrepresent information, distribute harmful content, disrupt platform operations, or engage in activities that compromise the security, reliability, confidentiality, or integrity of the platform.</p>
+          <p>CHMPYN reserves the right to investigate suspected violations and take appropriate corrective action where necessary.</p>
+        </LegalSection>
+
+        <LegalSection title="Privacy, Security & Data Protection">
+          <p>CHMPYN is committed to protecting information entrusted to the platform. The collection, processing, storage, protection, and management of information are governed by the CHMPYN Privacy Policy.</p>
+          <p>Users are expected to handle information responsibly and in accordance with organizational policies, privacy obligations, and applicable regulations. CHMPYN maintains security measures intended to protect information and support platform integrity.</p>
+          <p>Users share responsibility for maintaining account security by safeguarding login credentials, preventing unauthorized access, and reporting suspected security incidents or account compromise. Security remains a shared responsibility between CHMPYN, participating organizations, and authorized users.</p>
+        </LegalSection>
+
+        <LegalSection title="Intellectual Property Rights">
+          <p>CHMPYN and all associated software, technology, workflows, designs, branding, documentation, content, platform materials, and related intellectual property remain the exclusive property of CHMPYN or its licensors.</p>
+          <p>Access to the platform grants users a limited, non-transferable, revocable right to use CHMPYN solely for authorized purposes. Nothing within these Terms grants ownership rights, licenses, or other intellectual property interests beyond the limited right to use the platform as intended.</p>
+        </LegalSection>
+
+        <LegalSection title="Service Availability & Platform Improvements">
+          <p>CHMPYN continuously works to improve platform functionality, performance, security, reliability, and user experience. Updates, enhancements, maintenance activities, bug fixes, operational improvements, and new functionality may be introduced periodically.</p>
+          <p>While reasonable efforts are made to maintain service availability, uninterrupted access cannot be guaranteed. CHMPYN reserves the right to modify, update, enhance, suspend, or discontinue platform features where necessary to support operational, technical, security, or compliance requirements.</p>
+        </LegalSection>
+
+        <LegalSection title="Suspension, Termination & Enforcement">
+          <p>CHMPYN reserves the right to suspend, restrict, or terminate access where necessary to protect platform security, prevent misuse, address violations of these Terms and Conditions, comply with legal obligations, or safeguard organizational interests.</p>
+          <p>Organizations and users who fail to comply with applicable requirements may have their access restricted or terminated without prior notice where circumstances warrant immediate action.</p>
+        </LegalSection>
+
+        <LegalSection title="Limitation of Liability & Legal Compliance">
+          <p>CHMPYN provides technology solutions intended to support basketball program operations and organizational management. To the fullest extent permitted by applicable law, CHMPYN shall not be liable for indirect, incidental, consequential, special, exemplary, or punitive damages arising from the use of, inability to use, or reliance upon the platform.</p>
+          <p>Organizations and users remain responsible for ensuring that their use of CHMPYN complies with applicable laws, regulations, school policies, youth participation requirements, privacy obligations, and organizational standards. CHMPYN is intended to support compliance efforts but does not replace the legal responsibilities of participating organizations.</p>
+        </LegalSection>
+
+        <LegalSection title="Policy Updates & Contact Information">
+          <p>CHMPYN may update these Terms and Conditions periodically to reflect operational changes, legal requirements, security enhancements, platform improvements, or evolving industry standards. Updated versions will be made available through appropriate channels, and continued use of the platform following such updates constitutes acceptance of the revised Terms.</p>
+          <p>Questions regarding these Terms and Conditions, platform governance, compliance matters, operational concerns, or legal inquiries should be directed to the designated CHMPYN support and compliance representatives.</p>
+        </LegalSection>
+
+        <LegalSection title="Our Commitment">
+          <p>CHMPYN is committed to providing a secure, reliable, and professionally managed platform that supports school basketball programs. Through strong governance, responsible platform management, privacy-conscious practices, and ongoing improvements, we strive to create a trusted environment that supports organizations, participants, and long-term athlete development while maintaining the highest standards of accountability and operational integrity.</p>
+        </LegalSection>
+
+        <BackToHome />
+      </div>
+    </div>
+  );
+}
+
+const LEGAL_HASHES = new Set(['#privacy-policy', '#terms']);
+
+function useHashRoute() {
+  const [hash, setHash] = useState(() => window.location.hash || '#home');
+  const prevRef = useRef(hash);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = window.location.hash || '#home';
+      const prev = prevRef.current;
+      prevRef.current = next;
+
+      const isPageSwitch =
+        LEGAL_HASHES.has(next) !== LEGAL_HASHES.has(prev) ||
+        (LEGAL_HASHES.has(next) && next !== prev);
+
+      if (isPageSwitch) {
+        window.scrollTo({ top: 0 });
+      }
+
+      setHash(next);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  return hash;
+}
+
 export default function App() {
+  const hash = useHashRoute();
+  const isPrivacy = hash === '#privacy-policy';
+  const isTerms = hash === '#terms';
+
   return (
     <>
       <Navbar />
-      <ResponsiveArtboard>
-        <main>
-          <Hero />
-          <StatStrip />
-          <Overview />
-          <Growth />
-          <Collaboration />
-          <Roles />
-          <Scouts />
-          <Ecosystem />
-          <JourneyPath />
-          <MobileShowcase />
-          <Testimonials />
-          <DownloadSection />
-          <FinalCTA />
-        </main>
-        <Footer />
-      </ResponsiveArtboard>
+      {isPrivacy ? (
+        <ResponsiveArtboard>
+          <main><PrivacyPolicy /></main>
+          <Footer />
+        </ResponsiveArtboard>
+      ) : isTerms ? (
+        <ResponsiveArtboard>
+          <main><TermsConditions /></main>
+          <Footer />
+        </ResponsiveArtboard>
+      ) : (
+        <ResponsiveArtboard>
+          <main>
+            <Hero />
+            <StatStrip />
+            <Overview />
+            <Growth />
+            <Collaboration />
+            <Roles />
+            <Scouts />
+            <Ecosystem />
+            <JourneyPath />
+            <MobileShowcase />
+            <Testimonials />
+            <DownloadSection />
+            <FinalCTA />
+          </main>
+          <Footer />
+        </ResponsiveArtboard>
+      )}
       <ScrollToTop />
     </>
   );
