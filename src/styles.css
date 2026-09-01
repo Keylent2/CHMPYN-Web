@@ -32,9 +32,14 @@ button { font: inherit; }
   height: 89px;
   background: #fff;
   border-bottom: 1px solid #edf2f7;
-  position: relative;
-  z-index: 20;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 8px rgba(0,0,0,0);
+  transition: box-shadow .25s ease;
 }
+.nav-shell:not(:first-child),
+.nav-shell[style] { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
 .nav {
   height: 89px;
   display: grid;
@@ -55,9 +60,118 @@ button { font: inherit; }
 .logo__word { font-size: 17px; font-weight: 800; letter-spacing: .25em; }
 .logo--light .logo__word { color: #fff; }
 .logo--light .logo__mark { box-shadow: none; }
-.nav__links { display: flex; align-items: center; gap: 42px; font-size: 12px; font-weight: 500; color: #183857; }
+.nav__links { display: flex; align-items: center; gap: 42px; font-size: 15px; font-weight: 500; color: #183857; }
 .nav__links a.active { color: #087bd4; font-weight: 700; }
-.nav .button--nav { justify-self: end; }
+.nav__right { display: flex; align-items: center; gap: 12px; justify-self: end; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: var(--soft);
+  color: var(--ink);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.hamburger:hover { background: #e2edf7; }
+
+/* Mobile overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 98;
+}
+
+/* Mobile nav drawer */
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100dvh;
+  background: #fff;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  padding: 90px 28px 32px;
+  gap: 4px;
+  box-shadow: -4px 0 24px rgba(0,0,0,.12);
+  transition: right .3s ease;
+  visibility: hidden;
+}
+.mobile-nav--open {
+  right: 0;
+  visibility: visible;
+}
+.mobile-nav a {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  border-radius: 10px;
+  transition: background .15s;
+}
+.mobile-nav a:hover { background: var(--soft); color: var(--blue); }
+.mobile-nav a.active { color: var(--blue); font-weight: 700; background: var(--soft); }
+.mobile-nav__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.mobile-nav__close:hover { background: #e2edf7; }
+.mobile-nav__cta {
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 90;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(145deg, #0877ce, #015daa);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(1, 93, 170, .35);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.scroll-top--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.scroll-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(1, 93, 170, .45);
+}
 
 .button {
   height: 44px;
@@ -714,6 +828,10 @@ button { font: inherit; }
     transform: none;
   }
 
+  .hamburger { display: none; }
+  .mobile-nav { display: none; }
+  .mobile-overlay { display: none; }
+
 }
 
 /* ------------------------------ TABLET ------------------------------ */
@@ -749,6 +867,7 @@ button { font: inherit; }
     display: none;
   }
 
+  .hamburger { display: flex; }
   .hero,
   .overview,
   .growth,
@@ -1009,6 +1128,14 @@ button { font: inherit; }
   }
 }
 
+/* Nav: show full links on laptops / larger tablets (≥769px) */
+@media (min-width: 769px) {
+  .nav { grid-template-columns: 1fr auto 1fr; }
+  .nav__links { display: flex; }
+  .hamburger { display: none !important; }
+  .mobile-nav, .mobile-overlay { display: none !important; }
+}
+
 /* ------------------------------ PHONE / SMALL TABLET ------------------------------ */
 @media (max-width: 640px) {
   .hero__phones { margin-inline: auto; width: min(100%, 340px); }
@@ -1056,6 +1183,7 @@ button { font: inherit; }
     display: none;
   }
 
+  .hamburger { display: flex; }
   .logo__word {
     font-size: 14px;
   }
@@ -1066,6 +1194,8 @@ button { font: inherit; }
     padding: 0 15px;
     font-size: 10px;
   }
+
+  .scroll-top { bottom: 24px; right: 20px; width: 40px; height: 40px; }
 
   .hero,
   .overview,

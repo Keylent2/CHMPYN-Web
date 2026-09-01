@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Activity,
   ArrowRight,
+  ArrowUp,
   Award,
   BarChart3,
   Bell,
@@ -20,6 +21,7 @@ import {
   Linkedin,
   MapPin,
   Medal,
+  Menu,
   MessageCircle,
   MoreHorizontal,
   Paperclip,
@@ -35,6 +37,7 @@ import {
   UserRoundCheck,
   Users,
   UsersRound,
+  X,
   Youtube,
 } from 'lucide-react';
 
@@ -192,19 +195,89 @@ function Eyebrow({ children, light = false, purple = false, icon = false }) {
   );
 }
 
+const navLinks = [
+  { href: '#home', label: 'Home' },
+  { href: '#about', label: 'About Us' },
+  { href: '#contact', label: 'Contact Us' },
+  { href: '#privacy', label: 'Privacy Policy' },
+];
+
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState('#home');
+
+  useEffect(() => {
+    const ids = navLinks.map((l) => l.href.slice(1));
+    const onScroll = () => {
+      // Pick the section whose top is closest to the viewport top
+      let active = ids[0];
+      let bestDist = Infinity;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        // Only consider sections that are on-screen or scrolled past
+        if (rect.top <= window.innerHeight) {
+          const dist = Math.abs(rect.top);
+          if (dist < bestDist) {
+            bestDist = dist;
+            active = id;
+          }
+        }
+      }
+      setActiveHash(`#${active}`);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    if (menuOpen) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    }
+    return () => { html.style.overflow = ''; body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header className="nav-shell">
       <div className="nav container">
         <Logo />
         <nav className="nav__links" aria-label="Primary navigation">
-          <a className="active" href="#home">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#privacy">Privacy Policy</a>
-          <a href="#contact">Contact Us</a>
+          {navLinks.map(({ href, label }) => (
+            <a key={href} className={activeHash === href ? 'active' : ''} href={href}>{label}</a>
+          ))}
         </nav>
-        <a className="button button--primary button--nav" href="#download">Download App</a>
+        <div className="nav__right">
+          <a className="button button--primary button--nav" href="#download">Download App</a>
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
+
+      {menuOpen && <div className="mobile-overlay" onClick={closeMenu} />}
+      <nav className={`mobile-nav ${menuOpen ? 'mobile-nav--open' : ''}`} aria-label="Mobile navigation">
+        <button className="mobile-nav__close" onClick={closeMenu} aria-label="Close menu">
+          <X size={20} />
+        </button>
+        {navLinks.map(({ href, label }) => (
+          <a key={href} className={activeHash === href ? 'active' : ''} href={href} onClick={closeMenu}>{label}</a>
+        ))}
+      </nav>
     </header>
   );
 }
@@ -999,26 +1072,49 @@ function ResponsiveArtboard({ children }) {
   );
 }
 
+function ScrollToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <button
+      className={`scroll-top ${visible ? 'scroll-top--visible' : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
+    >
+      <ArrowUp size={24} />
+    </button>
+  );
+}
+
 export default function App() {
   return (
-    <ResponsiveArtboard>
+    <>
       <Navbar />
-      <main>
-        <Hero />
-        <StatStrip />
-        <Overview />
-        <Growth />
-        <Collaboration />
-        <Roles />
-        <Scouts />
-        <Ecosystem />
-        <JourneyPath />
-        <MobileShowcase />
-        <Testimonials />
-        <DownloadSection />
-        <FinalCTA />
-      </main>
-      <Footer />
-    </ResponsiveArtboard>
+      <ResponsiveArtboard>
+        <main>
+          <Hero />
+          <StatStrip />
+          <Overview />
+          <Growth />
+          <Collaboration />
+          <Roles />
+          <Scouts />
+          <Ecosystem />
+          <JourneyPath />
+          <MobileShowcase />
+          <Testimonials />
+          <DownloadSection />
+          <FinalCTA />
+        </main>
+        <Footer />
+      </ResponsiveArtboard>
+      <ScrollToTop />
+    </>
   );
 }
