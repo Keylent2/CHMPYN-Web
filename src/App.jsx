@@ -902,10 +902,10 @@ function Footer() {
 
         <div className="footer__column">
           <h3>PLATFORM</h3>
-          <a href="#about">Athletes</a>
-          <a href="#about">Coaches</a>
-          <a href="#about">Teams</a>
-          <a href="#about">Scouts</a>
+          <a href="#">Athletes</a>
+          <a href="#">Coaches</a>
+          <a href="#">Teams</a>
+          <a href="#">Scouts</a>
         </div>
 
         <div className="footer__column">
