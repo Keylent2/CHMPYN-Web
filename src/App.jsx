@@ -626,7 +626,7 @@ function PracticePlanScreen({ className = '' }) {
           <div className="app-nav__item"><CalendarDays size={16} /><span>Schedule</span></div>
           <div className="app-nav__item"><Users size={16} /><span>Team</span></div>
           <div className="app-nav__item active"><ClipboardList size={16} /><span>Practice</span></div>
-          <div className="app-nav__item"><Menu size={16} /><span>More</span></div>
+          <div className="app-nav__item"><MoreHorizontal size={16} /><span>More</span></div>
         </div>
       </div>
     </PhoneShell>
@@ -919,9 +919,9 @@ function Footer() {
 
         <div className="footer__column footer__contact">
           <h3>CONTACT</h3>
-          <a href="mailto:contact@chmpyn.com">contact@chmpyn.com</a>
-          <a href="tel:+10000000000">+1 XXXXX XXXXX</a>
-          <p><MapPin size={12} />1000 N West Street, Suite<br />1200, Wilmington, DE 19801</p>
+          <a href="mailto:chmpynchympyn@gmail.com">chmpynchympyn@gmail.com</a>
+          <a href="tel:+13024910010">+1 302 491 0010</a>
+          <p><MapPin size={12} />803 Lowell Dr, Bear - 19701-4951, United States (US)</p>
         </div>
 
         <div className="footer__column footer__download">
