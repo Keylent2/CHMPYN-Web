@@ -303,7 +303,7 @@ function Hero() {
             everyone train, connect, manage, develop, and grow.
           </p>
 
-          <a className="button button--outline hero__watch" href="#">
+          <a className="button button--outline hero__watch" href="javascript:void(0)">
             <Play size={16} fill="currentColor" />
             Watch Demo
           </a>
@@ -902,10 +902,10 @@ function Footer() {
 
         <div className="footer__column">
           <h3>PLATFORM</h3>
-          <a href="#">Athletes</a>
-          <a href="#">Coaches</a>
-          <a href="#">Teams</a>
-          <a href="#">Scouts</a>
+          <a href="javascript:void(0)">Athletes</a>
+          <a href="javascript:void(0)">Coaches</a>
+          <a href="javascript:void(0)">Teams</a>
+          <a href="javascript:void(0)">Scouts</a>
         </div>
 
         <div className="footer__column">
