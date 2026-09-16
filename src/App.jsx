@@ -752,13 +752,6 @@ function Footer() {
           <a href="#terms">Terms & Conditions</a>
         </div>
 
-        <div className="footer__column footer__contact">
-          <h3>CONTACT</h3>
-          <a href="mailto:chmpynchympyn@gmail.com">chmpynchympyn@gmail.com</a>
-          <a href="tel:+13024910010">+1 302 491 0010</a>
-          <p><MapPin size={12} />803 Lowell Dr, Bear - 19701-4951, United States (US)</p>
-        </div>
-
         <div className="footer__column footer__download">
           <h3>DOWNLOAD APP</h3>
           <a href="#download">Google Play</a>

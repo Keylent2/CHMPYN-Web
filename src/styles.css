@@ -935,7 +935,7 @@ button { font: inherit; }
 
 /* ------------------------------ FOOTER ------------------------------ */
 .footer { height: 420px; background: #090f18; color: #68798d; }
-.footer__grid { height: 340px; padding-top: 56px; display: grid; grid-template-columns: 1.55fr .70fr 1fr .68fr; gap: 45px; }
+.footer__grid { height: 340px; padding-top: 56px; display: grid; grid-template-columns: 1.55fr .70fr .68fr; gap: 45px; }
 .footer__brand p { margin: 20px 0 20px; font-size: 11px; line-height: 1.85; }
 .socials { display: flex; gap: 9px; }
 .socials a { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid #2d4050; border-radius: 7px; background: #132637; }
