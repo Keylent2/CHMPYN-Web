@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Activity,
@@ -9,16 +9,11 @@ import {
   BarChart3,
   Bell,
   CalendarDays,
-  Check,
-  CheckCheck,
   CheckSquare,
-  ChevronLeft,
   ClipboardList,
   Dumbbell,
   Facebook,
-  FileText,
   Home,
-  Info,
   Instagram,
   Linkedin,
   MapPin,
@@ -26,13 +21,9 @@ import {
   Menu,
   MessageCircle,
   MoreHorizontal,
-  Paperclip,
-  Play,
   Scale,
   Search,
-  Send,
   Shield,
-  Sparkles,
   Star,
   Target,
   Trophy,
@@ -91,28 +82,28 @@ const roles = [
     label: 'Athletes',
     title: 'Train Smarter',
     text: 'Track personal progress, view training plans, receive feedback, and compete with confidence every session.',
-    image: 'v5-role-athlete.png',
+    icon: Dumbbell,
     tone: 'blue',
   },
   {
     label: 'Coaches',
     title: 'Lead With Data',
     text: 'Manage rosters, build programs, evaluate athletes, and communicate with your entire squad from one dashboard.',
-    image: 'v5-role-coach.png',
+    icon: Award,
     tone: 'purple',
   },
   {
     label: 'Parents',
     title: 'Stay Connected',
     text: "Follow your child's journey, receive schedule updates, and celebrate every milestone in real time.",
-    image: 'v5-role-parent.png',
+    icon: UsersRound,
     tone: 'green',
   },
   {
     label: 'Organizations',
     title: 'Scale Programs',
     text: 'Run tournaments, manage federations, and grow your sports community with enterprise grade tools built for scale.',
-    image: 'v5-role-organization.png',
+    icon: Shield,
     tone: 'orange',
   },
 ];
@@ -144,13 +135,6 @@ const scoutFeatures = [
   },
 ];
 
-const ecosystemSteps = [
-  ['Athlete', 'Train & Grow', UserRoundCheck, 'blue'],
-  ['Coach', 'Guide & Develop', Award, 'purple'],
-  ['Team', 'Compete Together', UsersRound, 'green'],
-  ['Opportunity', 'Open Doors', Sparkles, 'purple'],
-  ['Champion', 'Achieve Greatness', Trophy, 'orange'],
-];
 
 const journeySteps = [
   ['01', 'JOIN', 'Profile, Goals, Sport', Users],
@@ -160,26 +144,6 @@ const journeySteps = [
   ['05', 'ACHIEVE', 'Goals, Awards, Opportunities', Star],
 ];
 
-const testimonials = [
-  {
-    quote: "CHMPYN completely changed how we manage our regional tournament. What used to take days of spreadsheet work now happens automatically. It's genuinely incredible technology.",
-    name: 'Marcus Thompson',
-    role: 'Tournament Director · Regional Football League',
-    image: 'v5-testimonial-1.png',
-  },
-  {
-    quote: 'The athlete tracking and feedback system is unmatched. My players can see exactly where they need to improve, and I can measure progress objectively. Performances improved 25% in one season.',
-    name: 'Larry Joe Bird',
-    role: 'Head Coach · National Athletics Academy',
-    image: 'v5-testimonial-2.png',
-  },
-  {
-    quote: 'From registration to the championship final, every step ran flawlessly. Parents, coaches, and athletes stayed informed and engaged throughout. CHMPYN is the future of sports management.',
-    name: 'Coach Cooper, Charles',
-    role: 'Sports Manager · Youth Cricket Board of India',
-    image: 'v5-testimonial-3.png',
-  },
-];
 
 function Logo({ light = false }) {
   return (
@@ -302,22 +266,6 @@ function Hero() {
             and scouts through one intelligent sports platform designed to help
             everyone train, connect, manage, develop, and grow.
           </p>
-
-          <a className="button button--outline hero__watch" href="javascript:void(0)">
-            <Play size={16} fill="currentColor" />
-            Watch Demo
-          </a>
-
-          <div className="hero-proof">
-            <div className="avatar-stack">
-              {['v5-proof-1.png', 'v5-proof-2.png', 'v5-proof-3.png', 'v5-proof-4.png'].map((x) => (
-                <img src={`${A}${x}`} alt="" key={x} />
-              ))}
-            </div>
-            <div className="proof-count"><b>10,000+</b> <span>athletes worldwide</span></div>
-            <div className="proof-divider" />
-            <div className="proof-rating"><div>★★★★★</div><span>Rated by coaches</span></div>
-          </div>
         </div>
 
         <div className="hero__phones">
@@ -330,28 +278,6 @@ function Hero() {
   );
 }
 
-function StatStrip() {
-  const stats = [
-    ['50', 'K+', 'Active Athletes'],
-    ['5', 'K+', 'Sports Teams'],
-    ['100', 'K+', 'Matches Managed'],
-    ['20', '+', 'Sports Categories'],
-    ['95', '%', 'User Satisfaction'],
-  ];
-
-  return (
-    <section className="stat-strip">
-      <div className="container stat-strip__inner">
-        {stats.map(([num, suffix, label]) => (
-          <div className="big-stat" key={label}>
-            <strong>{num}<span className="stat-suffix">{suffix}</span></strong>
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 function Overview() {
   return (
@@ -391,20 +317,6 @@ function StatusBar() {
   );
 }
 
-function PhoneFrame({ src, className = '' }) {
-  return (
-    <div className={`phone ${className}`}>
-      <div className="phone__btn phone__btn--power" />
-      <div className="phone__btn phone__btn--vol-up" />
-      <div className="phone__btn phone__btn--vol-down" />
-      <div className="phone__btn phone__btn--mute" />
-      <div className="phone__body">
-        <div className="phone__dynamic-island" />
-        <img src={`${A}${src}`} alt="CHMPYN mobile app screen" />
-      </div>
-    </div>
-  );
-}
 
 function PhoneShell({ className = '', children }) {
   return (
@@ -712,7 +624,7 @@ function Roles() {
         <div className="role-grid">
           {roles.map((role) => (
             <article className="role-card" key={role.label}>
-              <img src={`${A}${role.image}`} alt={`${role.label} portrait`} />
+              <div className={`role-icon ${role.tone}`}><role.icon size={26} strokeWidth={1.8} /></div>
               <span className={`role-pill ${role.tone}`}>{role.label}</span>
               <h3>{role.title}</h3>
               <p>{role.text}</p>
@@ -748,32 +660,6 @@ function Scouts() {
   );
 }
 
-function Ecosystem() {
-  return (
-    <section className="ecosystem section-gap-large">
-      <div className="container">
-        <div className="section-heading">
-          <Eyebrow>THE CHMPYN ECOSYSTEM</Eyebrow>
-          <h2>One Ecosystem. Every Journey.</h2>
-          <p>CHMPYN connects every part of the sports journey from participation and development to competition, connection, and opportunity.</p>
-        </div>
-
-        <div className="ecosystem-flow">
-          {ecosystemSteps.map(([title, text, Icon, tone], index) => (
-            <div className="ecosystem-node-wrap" key={title}>
-              <article className={`ecosystem-node eco-${tone}`}>
-                <span className="ecosystem-icon"><Icon size={20} /></span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-              {index < ecosystemSteps.length - 1 && <div className="ecosystem-line" />}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function JourneyPath() {
   return (
@@ -800,52 +686,6 @@ function JourneyPath() {
   );
 }
 
-function MobileShowcase() {
-  return (
-    <section className="mobile-showcase">
-      <div className="container">
-        <div className="section-heading">
-          <Eyebrow>MOBILE APP</Eyebrow>
-          <h2>CHMPYN In Your<br /><span>Pocket</span></h2>
-          <p>Take your entire sports management experience everywhere<br className="desktop-br" /> available on iOS and Android.</p>
-        </div>
-
-        <div className="phone-trio">
-          <DashboardScreen className="phone--side phone--left" variant="coach" />
-          <SplashScreen className="phone--center" />
-          <PracticePlanScreen className="phone--side phone--right" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Testimonials() {
-  return (
-    <section className="testimonials section-gap-tiny">
-      <div className="container">
-        <div className="section-heading">
-          <Eyebrow>TESTIMONIALS</Eyebrow>
-          <h2>What the <span>CHMPYN Community</span> Says</h2>
-          <p>Real experiences from athletes, coaches, and organizations<br className="desktop-br" /> that transformed with CHMPYN.</p>
-        </div>
-
-        <div className="testimonial-grid">
-          {testimonials.map((item) => (
-            <article className="testimonial-card" key={item.name}>
-              <div className="stars">★★★★★</div>
-              <blockquote>“{item.quote}”</blockquote>
-              <div className="testimonial-author">
-                <img src={`${A}${item.image}`} alt={item.name} />
-                <div><h3>{item.name}</h3><p>{item.role}</p></div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function DownloadSection() {
   return (
@@ -854,11 +694,14 @@ function DownloadSection() {
         <div>
           <Eyebrow>DOWNLOAD APP</Eyebrow>
           <h2>Take CHMPYN<br /><span>Everywhere</span></h2>
-          <p>Available on iOS and Android. Manage teams, track performance, and stay connected from anywhere no laptop required.</p>
+          <p>Available on Android. Manage teams, track performance, and stay connected from anywhere no laptop required.</p>
         </div>
 
         <div className="store-badges">
-          <img src={`${A}v5-store-badges.png`} alt="Download CHMPYN on the App Store or Google Play" />
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <img src={`${A}google-play.png`} alt="Get it on Google Play" loading="lazy" />
+            <span className="store-badges__subtext">Click here to download from Google Play</span>
+          </a>
         </div>
       </div>
     </section>
@@ -901,14 +744,6 @@ function Footer() {
         </div>
 
         <div className="footer__column">
-          <h3>PLATFORM</h3>
-          <a href="javascript:void(0)">Athletes</a>
-          <a href="javascript:void(0)">Coaches</a>
-          <a href="javascript:void(0)">Teams</a>
-          <a href="javascript:void(0)">Scouts</a>
-        </div>
-
-        <div className="footer__column">
           <h3>NAVIGATION</h3>
           <a href="#home">Home</a>
           <a href="#about">About Us</a>
@@ -926,13 +761,12 @@ function Footer() {
 
         <div className="footer__column footer__download">
           <h3>DOWNLOAD APP</h3>
-          <a href="#download">App Store</a>
           <a href="#download">Google Play</a>
         </div>
       </div>
 
       <div className="container footer__bottom">
-        <span>© 2026 CHMPYN. All Rights Reserved.</span>
+        <span>© {new Date().getFullYear()} CHMPYN. All Rights Reserved.</span>
         <div><a href="#privacy-policy">Privacy Policy</a><a href="#terms">Terms & Conditions</a></div>
       </div>
     </footer>
@@ -1235,7 +1069,9 @@ function TermsConditions() {
 const LEGAL_HASHES = new Set(['#privacy-policy', '#terms']);
 
 function useHashRoute() {
-  const [hash, setHash] = useState(() => window.location.hash || '#home');
+  const [hash, setHash] = useState(() =>
+    typeof window !== 'undefined' ? window.location.hash || '#home' : '#home',
+  );
   const prevRef = useRef(hash);
 
   useEffect(() => {
@@ -1283,14 +1119,12 @@ export default function App() {
         <ResponsiveArtboard>
           <main>
             <Hero />
-            <StatStrip />
             <Overview />
             <Growth />
             <Collaboration />
             <Roles />
             <Scouts />
             <JourneyPath />
-            <Testimonials />
             <DownloadSection />
             <FinalCTA />
           </main>
