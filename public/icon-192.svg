@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0877ce"/>
+      <stop offset="100%" stop-color="#015daa"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="38" fill="url(#bg)"/>
+  <g transform="translate(66,38) scale(2.5)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9H2V4h4"/>
+    <path d="M18 9h4V4h-4"/>
+    <path d="M4 2h16v9a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V2z"/>
+    <path d="M12 17v3"/>
+    <path d="M8 22h8"/>
+  </g>
+  <text x="96" y="156" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="22" font-weight="800" letter-spacing="4">CHMPYN</text>
+</svg>

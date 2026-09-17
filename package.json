@@ -1,7 +1,11 @@
 {
-  "name": "chmpyn-version-2",
+  "name": "chmpyn-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "CHMPYN - Sports management platform landing page",
+  "author": "CHMPYN Team",
+  "license": "UNLICENSED",
+  "homepage": "https://champyn.com",
   "type": "module",
   "scripts": {
     "dev": "vite",

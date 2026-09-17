@@ -7,4 +7,13 @@ export default defineConfig({
     host: true,
     port: 5173,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          lucide: ['lucide-react'],
+        },
+      },
+    },
+  },
 });

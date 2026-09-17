@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   Activity,
@@ -177,20 +177,14 @@ function Navbar() {
   useEffect(() => {
     const ids = navLinks.map((l) => l.href.slice(1));
     const onScroll = () => {
-      // Pick the section whose top is closest to the viewport top
+      const threshold = window.innerHeight / 3;
       let active = ids[0];
-      let bestDist = Infinity;
-      for (const id of ids) {
-        const el = document.getElementById(id);
+      for (let i = ids.length - 1; i >= 0; i--) {
+        const el = document.getElementById(ids[i]);
         if (!el) continue;
-        const rect = el.getBoundingClientRect();
-        // Only consider sections that are on-screen or scrolled past
-        if (rect.top <= window.innerHeight) {
-          const dist = Math.abs(rect.top);
-          if (dist < bestDist) {
-            bestDist = dist;
-            active = id;
-          }
+        if (el.getBoundingClientRect().top <= threshold) {
+          active = ids[i];
+          break;
         }
       }
       setActiveHash(`#${active}`);
@@ -712,21 +706,28 @@ function DownloadSection() {
 function ContactUs() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
-    const formData = new FormData(e.target);
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString(),
-    })
-      .then(() => {
+    setError('');
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(e.target)).toString(),
+      });
+      if (response.ok) {
         setSubmitted(true);
-        setSending(false);
-      })
-      .catch(() => setSending(false));
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -792,6 +793,7 @@ function ContactUs() {
                 <label htmlFor="message">Message <span className="required">*</span></label>
                 <textarea id="message" name="message" rows="4" placeholder="How can we help you?" required />
               </div>
+              {error && <p className="form-error">{error}</p>}
               <button type="submit" className="button button--primary contact-submit" disabled={sending}>
                 {sending ? 'Sending...' : 'Send Message'}
                 <Send size={15} />
@@ -832,10 +834,10 @@ function Footer() {
             Supporting every journey.
           </p>
           <div className="socials">
-            <a href="#contact" aria-label="Instagram"><Instagram size={14} /></a>
-            <a href="#contact" aria-label="Facebook"><Facebook size={14} /></a>
-            <a href="#contact" aria-label="LinkedIn"><Linkedin size={14} /></a>
-            <a href="#contact" aria-label="YouTube"><Youtube size={14} /></a>
+            <a href="javascript:void(0)" aria-label="Instagram"><Instagram size={14} /></a>
+            <a href="javascript:void(0)" aria-label="Facebook"><Facebook size={14} /></a>
+            <a href="javascript:void(0)" aria-label="LinkedIn"><Linkedin size={14} /></a>
+            <a href="javascript:void(0)" aria-label="YouTube"><Youtube size={14} /></a>
           </div>
         </div>
 
@@ -1190,9 +1192,25 @@ function LegalLink({ to, children, className }) {
   );
 }
 
+function scrollToSection(sectionId) {
+  const el = document.getElementById(sectionId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    return true;
+  }
+  return false;
+}
+
+function waitForElement(sectionId, attempts = 0) {
+  if (attempts > 20) return; // give up after ~1s
+  if (!scrollToSection(sectionId)) {
+    requestAnimationFrame(() => waitForElement(sectionId, attempts + 1));
+  }
+}
+
 function HomeLink({ children, className, hash = '' }) {
   const sectionId = hash ? hash.replace('#', '') : '';
-  const href = hash ? `/${hash}` : '/';
+  const href = sectionId ? `/#${sectionId}` : '/';
   return (
     <a
       href={href}
@@ -1201,19 +1219,13 @@ function HomeLink({ children, className, hash = '' }) {
         e.preventDefault();
         const currentRoute = getRoute();
         if (currentRoute !== '/') {
-          // Navigate from legal page back to home
           window.history.pushState(null, '', '/');
           window.dispatchEvent(new PopStateEvent('popstate'));
           if (sectionId) {
-            // Wait for home page to render, then scroll
-            setTimeout(() => {
-              const el = document.getElementById(sectionId);
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 150);
+            requestAnimationFrame(() => waitForElement(sectionId));
           }
         } else if (sectionId) {
-          const el = document.getElementById(sectionId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          scrollToSection(sectionId);
         } else {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1224,13 +1236,36 @@ function HomeLink({ children, className, hash = '' }) {
   );
 }
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Poppins, sans-serif', color: '#193b5d', textAlign: 'center', padding: '24px' }}>
+          <Trophy size={40} color="#087bd4" />
+          <h1 style={{ margin: '16px 0 8px', fontSize: '24px' }}>Something went wrong</h1>
+          <p style={{ margin: 0, color: '#6e8cab', fontSize: '14px' }}>Please refresh the page to try again.</p>
+          <button onClick={() => window.location.reload()} style={{ marginTop: '24px', padding: '10px 28px', borderRadius: '999px', border: 'none', background: '#087bd4', color: '#fff', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}>Refresh Page</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   const route = useRoute();
   const isPrivacy = route === '/privacy-policy';
   const isTerms = route === '/terms';
 
   return (
-    <>
+    <ErrorBoundary>
       <Navbar />
       {isPrivacy ? (
         <ResponsiveArtboard>
@@ -1260,6 +1295,6 @@ export default function App() {
         </ResponsiveArtboard>
       )}
       <ScrollToTop />
-    </>
+    </ErrorBoundary>
   );
 }
