@@ -147,10 +147,10 @@ const journeySteps = [
 
 function Logo({ light = false }) {
   return (
-    <a className={`logo ${light ? 'logo--light' : ''}`} href="#home" aria-label="CHMPYN home">
+    <HomeLink className={`logo ${light ? 'logo--light' : ''}`} aria-label="CHMPYN home">
       <span className="logo__mark"><Trophy size={17} strokeWidth={2.2} /></span>
       <span className="logo__word">CHMPYN</span>
-    </a>
+    </HomeLink>
   );
 }
 
@@ -220,11 +220,11 @@ function Navbar() {
         <Logo />
         <nav className="nav__links" aria-label="Primary navigation">
           {navLinks.map(({ href, label }) => (
-            <a key={href} className={activeHash === href ? 'active' : ''} href={href}>{label}</a>
+            <HomeLink key={href} className={activeHash === href ? 'active' : ''} hash={href}>{label}</HomeLink>
           ))}
         </nav>
         <div className="nav__right">
-          <a className="button button--primary button--nav" href="#download">Download App</a>
+          <HomeLink className="button button--primary button--nav" hash="#download">Download App</HomeLink>
           <button
             className="hamburger"
             onClick={() => setMenuOpen((o) => !o)}
@@ -242,9 +242,9 @@ function Navbar() {
           <X size={20} />
         </button>
         {navLinks.map(({ href, label }) => (
-          <a key={href} className={activeHash === href ? 'active' : ''} href={href} onClick={closeMenu}>{label}</a>
+          <HomeLink key={href} className={activeHash === href ? 'active' : ''} hash={href}>{label}</HomeLink>
         ))}
-        <a className="button button--primary mobile-nav__download" href="#download" onClick={closeMenu}>Download App</a>
+        <HomeLink className="button button--primary mobile-nav__download" hash="#download">Download App</HomeLink>
       </nav>
     </header>
   );
@@ -717,7 +717,7 @@ function FinalCTA() {
         <h2>Your Journey Starts Here.</h2>
         <p>Whether you're playing, coaching, managing, supporting, or discovering talent, CHMPYN gives you the tools to take the next step.</p>
         <div className="final-cta__actions">
-          <a href="#download" className="button button--white">Download CHMPYN <ArrowRight size={16} /></a>
+          <HomeLink className="button button--white" hash="#download">Download CHMPYN <ArrowRight size={16} /></HomeLink>
         </div>
       </div>
     </section>
@@ -745,22 +745,22 @@ function Footer() {
 
         <div className="footer__column">
           <h3>NAVIGATION</h3>
-          <a href="#home">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#contact">Contact Us</a>
-          <a href="#privacy-policy">Privacy Policy</a>
-          <a href="#terms">Terms & Conditions</a>
+          <HomeLink hash="#home">Home</HomeLink>
+          <HomeLink hash="#about">About Us</HomeLink>
+          <HomeLink hash="#contact">Contact Us</HomeLink>
+          <LegalLink to="/privacy-policy">Privacy Policy</LegalLink>
+          <LegalLink to="/terms">Terms &amp; Conditions</LegalLink>
         </div>
 
         <div className="footer__column footer__download">
           <h3>DOWNLOAD APP</h3>
-          <a href="#download">Google Play</a>
+          <HomeLink hash="#download">Google Play</HomeLink>
         </div>
       </div>
 
       <div className="container footer__bottom">
         <span>© {new Date().getFullYear()} CHMPYN. All Rights Reserved.</span>
-        <div><a href="#privacy-policy">Privacy Policy</a><a href="#terms">Terms & Conditions</a></div>
+        <div><LegalLink to="/privacy-policy">Privacy Policy</LegalLink><LegalLink to="/terms">Terms &amp; Conditions</LegalLink></div>
       </div>
     </footer>
   );
@@ -884,10 +884,10 @@ function LegalSection({ title, children }) {
 
 function BackToHome() {
   return (
-    <a href="#home" className="legal-back">
+    <HomeLink className="legal-back">
       <ArrowLeft size={16} />
       Back to Home
-    </a>
+    </HomeLink>
   );
 }
 
@@ -1059,41 +1059,76 @@ function TermsConditions() {
   );
 }
 
-const LEGAL_HASHES = new Set(['#privacy-policy', '#terms']);
+const LEGAL_PATHS = new Set(['/privacy-policy', '/terms']);
 
-function useHashRoute() {
-  const [hash, setHash] = useState(() =>
-    typeof window !== 'undefined' ? window.location.hash || '#home' : '#home',
-  );
-  const prevRef = useRef(hash);
+function getRoute() {
+  if (typeof window === 'undefined') return '/';
+  const path = window.location.pathname;
+  return LEGAL_PATHS.has(path) ? path : '/';
+}
+
+function useRoute() {
+  const [route, setRoute] = useState(getRoute);
 
   useEffect(() => {
-    const onHashChange = () => {
-      const next = window.location.hash || '#home';
-      const prev = prevRef.current;
-      prevRef.current = next;
-
-      const isPageSwitch =
-        LEGAL_HASHES.has(next) !== LEGAL_HASHES.has(prev) ||
-        (LEGAL_HASHES.has(next) && next !== prev);
-
-      if (isPageSwitch) {
-        window.scrollTo({ top: 0 });
-      }
-
-      setHash(next);
-    };
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
+    const onPopState = () => setRoute(getRoute());
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  return hash;
+  return route;
+}
+
+function navigate(e, path) {
+  e.preventDefault();
+  window.history.pushState(null, '', path);
+  window.scrollTo({ top: 0 });
+  window.dispatchEvent(new PopStateEvent('popstate'));
+}
+
+function LegalLink({ to, children, className }) {
+  return (
+    <a href={to} className={className} onClick={(e) => navigate(e, to)}>
+      {children}
+    </a>
+  );
+}
+
+function HomeLink({ children, className, hash = '' }) {
+  const href = hash ? `/${hash}` : '/';
+  return (
+    <a
+      href={href}
+      className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        const currentRoute = getRoute();
+        if (currentRoute !== '/') {
+          window.history.pushState(null, '', href);
+          window.dispatchEvent(new PopStateEvent('popstate'));
+          if (hash) {
+            setTimeout(() => {
+              const el = document.getElementById(hash.slice(1));
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }
+        } else if (hash) {
+          const el = document.getElementById(hash.slice(1));
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }}
+    >
+      {children}
+    </a>
+  );
 }
 
 export default function App() {
-  const hash = useHashRoute();
-  const isPrivacy = hash === '#privacy-policy';
-  const isTerms = hash === '#terms';
+  const route = useRoute();
+  const isPrivacy = route === '/privacy-policy';
+  const isTerms = route === '/terms';
 
   return (
     <>
