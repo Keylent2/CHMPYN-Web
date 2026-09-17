@@ -23,6 +23,7 @@ import {
   MoreHorizontal,
   Scale,
   Search,
+  Send,
   Shield,
   Star,
   Target,
@@ -708,6 +709,101 @@ function DownloadSection() {
   );
 }
 
+function ContactUs() {
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSending(true);
+    const formData = new FormData(e.target);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => {
+        setSubmitted(true);
+        setSending(false);
+      })
+      .catch(() => setSending(false));
+  };
+
+  return (
+    <section className="contact-section" id="contact">
+      <div className="container contact-section__inner">
+        <div className="contact-section__left">
+          <Eyebrow>GET IN TOUCH</Eyebrow>
+          <h2>Let's Build the Future<br />of <span>Sports Together.</span></h2>
+          <p>Have a question, suggestion, or partnership opportunity? We'd love to hear from you. Reach out and our team will get back to you shortly.</p>
+          <div className="contact-info-list">
+            <div className="contact-info-item">
+              <span className="contact-info-icon"><MessageCircle size={18} /></span>
+              <div>
+                <b>Quick Response</b>
+                <span>We typically respond within 24 hours</span>
+              </div>
+            </div>
+            <div className="contact-info-item">
+              <span className="contact-info-icon"><Shield size={18} /></span>
+              <div>
+                <b>Secure & Private</b>
+                <span>Your information is safe with us</span>
+              </div>
+            </div>
+            <div className="contact-info-item">
+              <span className="contact-info-icon"><Users size={18} /></span>
+              <div>
+                <b>Partnerships Welcome</b>
+                <span>Teams, leagues, and organizations</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="contact-section__right">
+          {submitted ? (
+            <div className="contact-success">
+              <Trophy size={32} />
+              <h3>Message Sent!</h3>
+              <p>Thank you for reaching out. We'll get back to you soon.</p>
+            </div>
+          ) : (
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden" style={{ display: 'none' }}>
+                <label>Don't fill this out: <input name="bot-field" /></label>
+              </p>
+              <div className="form-group">
+                <label htmlFor="fullName">Full Name <span className="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email <span className="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="message">Message <span className="required">*</span></label>
+                <textarea id="message" name="message" rows="4" placeholder="How can we help you?" required />
+              </div>
+              <button type="submit" className="button button--primary contact-submit" disabled={sending}>
+                {sending ? 'Sending...' : 'Send Message'}
+                <Send size={15} />
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FinalCTA() {
   return (
     <section className="final-cta">
@@ -1154,6 +1250,7 @@ export default function App() {
             <Scouts />
             <JourneyPath />
             <DownloadSection />
+            <ContactUs />
             <FinalCTA />
           </main>
           <Footer />
