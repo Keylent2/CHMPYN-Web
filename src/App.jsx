@@ -1191,6 +1191,7 @@ function LegalLink({ to, children, className }) {
 }
 
 function HomeLink({ children, className, hash = '' }) {
+  const sectionId = hash ? hash.replace('#', '') : '';
   const href = hash ? `/${hash}` : '/';
   return (
     <a
@@ -1200,16 +1201,18 @@ function HomeLink({ children, className, hash = '' }) {
         e.preventDefault();
         const currentRoute = getRoute();
         if (currentRoute !== '/') {
-          window.history.pushState(null, '', href);
+          // Navigate from legal page back to home
+          window.history.pushState(null, '', '/');
           window.dispatchEvent(new PopStateEvent('popstate'));
-          if (hash) {
+          if (sectionId) {
+            // Wait for home page to render, then scroll
             setTimeout(() => {
-              const el = document.getElementById(hash.slice(1));
+              const el = document.getElementById(sectionId);
               if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
+            }, 150);
           }
-        } else if (hash) {
-          const el = document.getElementById(hash.slice(1));
+        } else if (sectionId) {
+          const el = document.getElementById(sectionId);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         } else {
           window.scrollTo({ top: 0, behavior: 'smooth' });
