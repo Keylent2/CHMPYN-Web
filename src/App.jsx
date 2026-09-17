@@ -741,7 +741,7 @@ function ContactUs() {
               <span className="contact-info-icon"><MessageCircle size={18} /></span>
               <div>
                 <b>Quick Response</b>
-                <span>We typically respond within 24 hours</span>
+                <span>We'll get back to you as soon as possible</span>
               </div>
             </div>
             <div className="contact-info-item">
