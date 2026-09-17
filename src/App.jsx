@@ -669,7 +669,7 @@ function JourneyPath() {
         <div className="section-heading">
           <Eyebrow>YOUR PLAYER JOURNEY</Eyebrow>
           <h2>Your Journey. Your Goals. Your Progress.</h2>
-          <p>From joining CHMPYN to reaching your full potential – every step of your sports journey in one place.</p>
+          <p>From joining CHMPYN to reaching your full potential - every step of your sports journey in one place.</p>
         </div>
 
         <div className="journey-grid">
@@ -1064,7 +1064,7 @@ function PrivacyPolicy() {
         </LegalSection>
 
         <LegalSection title="Our Commitment">
-          <p>At CHMPYN, privacy is not simply a compliance requirement—it is a fundamental part of how we build, operate, and improve our platform. We remain committed to providing a secure and trusted environment that supports athlete development, organizational success, operational efficiency, and responsible information management.</p>
+          <p>At CHMPYN, privacy is not simply a compliance requirement - it is a fundamental part of how we build, operate, and improve our platform. We remain committed to providing a secure and trusted environment that supports athlete development, organizational success, operational efficiency, and responsible information management.</p>
           <p>Privacy, security, transparency, accountability, and continuous improvement remain central to the design and operation of the CHMPYN platform.</p>
         </LegalSection>
 
